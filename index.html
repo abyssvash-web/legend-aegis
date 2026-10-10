@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGENDARY AEGIS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            gold: '#F59E0B',
+                            amber: '#D97706',
+                            dark: '#0B0B0E',
+                            card: '#141419',
+                            cardHover: '#1A1A22',
+                            glow: '#FBBF24',
+                        }
+                    },
+                    boxShadow: {
+                        'neon-gold': '0 0 20px rgba(245, 158, 11, 0.4), 0 0 40px rgba(245, 158, 11, 0.1)',
+                        'neon-hover': '0 0 30px rgba(251, 191, 36, 0.7), 0 0 60px rgba(245, 158, 11, 0.3)',
+                        'card-glow': '0 10px 30px -10px rgba(245, 158, 11, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B0B0E;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .bg-aegis {
+            background-image: linear-gradient(to bottom, rgba(11, 11, 14, 0.8), rgba(11, 11, 14, 0.95)), url('bpbg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+        }
+
+        .logo-glow {
+            filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.5));
+            transition: filter 0.3s ease;
+        }
+
+        .logo-glow:hover {
+            filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.8));
+        }
+
+        /* Glassmorphism Navigation */
+        .nav-glass {
+            background: rgba(11, 11, 14, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-aegis min-h-screen flex flex-col justify-between selection:bg-brand-gold selection:text-black">
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 nav-glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#home" class="flex items-center gap-3 group">
+                <img src="bplogo.png" alt="AEGIS Logo" class="h-12 w-auto object-contain logo-glow rounded">
+                <span class="font-heading font-black text-xl tracking-wider text-white group-hover:text-brand-gold transition-colors">
+                    LEGENDARY <span class="text-brand-gold">AEGIS</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-8 font-heading text-sm uppercase tracking-wider">
+                <a href="#home" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold">Home</a>
+                <a href="#register" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold">Register</a>
+                <a href="#download" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold">Download</a>
+                <a href="#discord" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold">Discord</a>
+            </nav>
+
+            <!-- Discord Quick Join CTA -->
+            <div class="hidden sm:block">
+                <a href="https://discord.gg/WBAmVQtfAa" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 bg-brand-gold hover:bg-amber-600 text-black font-heading text-xs uppercase font-bold px-5 py-2.5 rounded-lg shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-0.5">
+                    <i class="fa-brands font-bold text-base fa-discord"></i>
+                    <span>Discord</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-2">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-b border-brand-gold/30 px-4 pt-2 pb-6 space-y-3 font-heading uppercase text-sm">
+            <a href="#home" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800">Home</a>
+            <a href="#register" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800">Register</a>
+            <a href="#download" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800">Download</a>
+            <a href="#discord" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800">Discord</a>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-20">
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-[90vh] flex items-center justify-center text-center px-4 py-20">
+            <div class="max-w-4xl mx-auto flex flex-col items-center">
+                <!-- Glowing Main Logo -->
+                <div class="relative mb-6 group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-brand-gold to-amber-600 rounded-full blur-xl opacity-40 group-hover:opacity-70 transition duration-500"></div>
+                    <img src="bplogo.png" alt="AEGIS Logo" class="relative w-48 h-48 sm:w-64 sm:h-64 object-contain rounded-2xl shadow-2xl logo-glow">
+                </div>
+
+                <!-- Main Tagline & Title -->
+                <h1 class="font-heading font-black text-4xl sm:text-6xl md:text-7xl tracking-wider uppercase mb-3 text-white">
+                    AEGIS <span class="text-brand-gold text-glow">MMORPG</span>
+                </h1>
+                
+                <p class="font-heading font-semibold text-lg sm:text-2xl tracking-widest text-gray-300 mb-8 uppercase flex items-center gap-3">
+                    <span class="h-0.5 w-8 bg-brand-gold inline-block"></span>
+                    THE ULTIMATE PRIVATE SERVER EXPERIENCE
+                    <span class="h-0.5 w-8 bg-brand-gold inline-block"></span>
+                </p>
+
+                <p class="text-gray-400 max-w-2xl text-base sm:text-lg mb-10 leading-relaxed">
+                    Discover a new world of adventure, engage in epic guild wars, and conquer your enemies in the AEGIS Private Server.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <a href="#register" 
+                       class="inline-flex items-center justify-center gap-3 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-8 py-4 rounded-xl shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-1">
+                        <i class="fa-solid fa-user-plus text-xl"></i>
+                        <span>Register Account</span>
+                    </a>
+                    <a href="#download" 
+                       class="inline-flex items-center justify-center gap-2 bg-brand-card hover:bg-brand-cardHover text-white font-heading font-bold text-sm uppercase px-8 py-4 rounded-xl border border-gray-700 hover:border-brand-gold transition-all duration-300">
+                        <i class="fa-solid fa-download text-brand-gold"></i>
+                        <span>Download Game</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register Section (Coming Soon) -->
+        <section id="register" class="py-24 px-4 sm:px-6 lg:px-8 max-w-xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="font-heading font-black text-3xl sm:text-4xl uppercase tracking-wider mb-4">
+                    CREATE <span class="text-brand-gold text-glow">ACCOUNT</span>
+                </h2>
+                <p class="text-gray-400 text-sm sm:text-base">
+                    Registration system is temporarily closed.
+                </p>
+                <div class="w-24 h-1 bg-brand-gold mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Notice Card -->
+            <div class="bg-brand-card border border-brand-gold/40 rounded-2xl shadow-neon-gold p-8 text-center space-y-6">
+                <div class="w-16 h-16 bg-brand-gold/10 border border-brand-gold/30 rounded-2xl flex items-center justify-center mx-auto text-brand-gold text-2xl">
+                    <i class="fa-solid fa-hourglass-half fa-spin"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">COMING SOON</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        The registration link and official server are currently being prepared. Please stay tuned to our Discord channel for announcements.
+                    </p>
+                </div>
+                <a href="https://discord.gg/WBAmVQtfAa" target="_blank"
+                   class="w-full inline-flex items-center justify-center gap-2 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-6 py-3.5 rounded-xl shadow-neon-gold transition-all">
+                    <i class="fa-brands fa-discord"></i>
+                    <span>Join Discord for Updates</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Download Section -->
+        <section id="download" class="py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
+            <h2 class="font-heading font-black text-3xl sm:text-5xl uppercase tracking-wider mb-4">
+                DOWNLOAD <span class="text-brand-gold text-glow">CLIENT</span>
+            </h2>
+            <p class="text-gray-400 max-w-xl mx-auto text-sm sm:text-base mb-10">
+                Download the official AEGIS client and launcher to start playing.
+            </p>
+            <div class="w-24 h-1 bg-brand-gold mx-auto mb-10 rounded-full"></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="bg-brand-card border border-gray-800 p-8 rounded-2xl shadow-card-glow flex flex-col items-center">
+                    <i class="fa-solid fa-cloud-arrow-down text-brand-gold text-4xl mb-4"></i>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">FULL CLIENT</h3>
+                    <p class="text-gray-400 text-sm mb-6">Direct download for the complete game client.</p>
+                    <a href="#" target="_blank" class="w-full bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-xs uppercase px-6 py-3 rounded-xl shadow-neon-gold transition-all">
+                        Download Mirror 1
+                    </a>
+                </div>
+                <div class="bg-brand-card border border-gray-800 p-8 rounded-2xl shadow-card-glow flex flex-col items-center">
+                    <i class="fa-solid fa-bolt text-brand-gold text-4xl mb-4"></i>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">LAUNCHER / PATCHER</h3>
+                    <p class="text-gray-400 text-sm mb-6">For updates and existing installations.</p>
+                    <a href="#" target="_blank" class="w-full bg-white/5 hover:bg-brand-gold/10 border border-gray-700 hover:border-brand-gold text-white font-heading font-bold text-xs uppercase px-6 py-3 rounded-xl transition-all">
+                        Download Launcher
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Discord Community Banner -->
+        <section id="discord" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="relative bg-gradient-to-r from-brand-card via-gray-900 to-brand-card border border-brand-gold/40 rounded-3xl p-8 sm:p-14 overflow-hidden shadow-2xl">
+                <div class="absolute top-0 right-0 -mr-16 -mt-16 w-72 h-72 bg-brand-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-72 h-72 bg-brand-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+                    <div class="text-center lg:text-left max-w-2xl">
+                        <div class="inline-flex items-center gap-2 bg-brand-gold/20 text-brand-gold border border-brand-gold/30 px-4 py-1.5 rounded-full text-xs font-heading font-bold uppercase mb-4">
+                            <i class="fa-brands fa-discord text-base"></i> Community Hub
+                        </div>
+                        <h2 class="font-heading font-black text-3xl sm:text-5xl uppercase tracking-wider text-white mb-4">
+                            JOIN THE <span class="text-brand-gold text-glow">AEGIS DISCORD</span>
+                        </h2>
+                        <p class="text-gray-300 text-base sm:text-lg leading-relaxed">
+                            Connect with fellow players, get the latest updates, and get support from our community.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto shrink-0">
+                        <a href="https://discord.gg/WBAmVQtfAa" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center justify-center gap-3 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-base uppercase px-8 py-5 rounded-2xl shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-1">
+                            <i class="fa-brands fa-discord text-2xl"></i>
+                            <span>Join Discord</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-brand-dark/90 border-t border-gray-800/80 py-10 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+            <div class="flex items-center gap-3">
+                <img src="bplogo.png" alt="AEGIS Logo Small" class="h-10 w-auto rounded logo-glow">
+                <div>
+                    <span class="font-heading font-bold text-lg text-white tracking-wider block">AEGIS PRIVATE SERVER</span>
+                    <span class="text-xs text-gray-500">Play. Conquer. Dominate.</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-500">
+                &copy; 2026 AEGIS. All rights reserved.
+            </p>
+
+            <div class="flex items-center space-x-5 text-gray-400">
+                <a href="https://discord.gg/V87ZwmcxbM" target="_blank" class="hover:text-brand-gold transition-colors text-lg"><i class="fa-brands fa-discord"></i></a>
+                <a href="#" class="hover:text-brand-gold transition-colors text-lg"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts Section -->
+    <script>
+        // Mobile Navigation Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
