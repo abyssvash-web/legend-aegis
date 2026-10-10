@@ -91,11 +91,29 @@
             </a>
 
             <!-- Desktop Nav Links -->
-            <nav class="hidden md:flex items-center space-x-8 font-heading text-sm uppercase tracking-wider">
-                <a href="#home" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold">Home</a>
-                <a href="#register" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold">Register</a>
-                <a href="#download" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold">Download</a>
-                <a href="#discord" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold">Discord</a>
+            <nav class="hidden md:flex items-center space-x-6 font-heading text-sm uppercase tracking-wider">
+                <a href="#home" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_home">Home</a>
+                <a href="#register" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_register">Register</a>
+                <a href="#download" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_download">Download</a>
+                <a href="#discord" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_discord">Discord</a>
+
+                <!-- Language Dropdown -->
+                <div class="relative group">
+                    <button id="lang-menu-btn" class="flex items-center gap-1.5 text-gray-300 hover:text-brand-gold transition-colors py-2 px-3 border border-brand-gold/30 rounded-lg bg-brand-dark/50">
+                        <span id="current-lang">EN</span>
+                        <i class="fa-solid fa-caret-down text-xs"></i>
+                    </button>
+                    <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-44 bg-brand-card border border-brand-gold/30 rounded-xl shadow-2xl py-2 z-50 flex flex-col font-sans text-sm">
+                        <a href="#" onclick="setLanguage('en'); return false;" class="px-4 py-2 text-brand-gold hover:bg-brand-cardHover font-bold transition-colors">English</a>
+                        <a href="#" onclick="setLanguage('pt'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Português</a>
+                        <a href="#" onclick="setLanguage('zh'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">简体中文</a>
+                        <a href="#" onclick="setLanguage('ph'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Filipino</a>
+                        <a href="#" onclick="setLanguage('id'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Bahasa Indonesia</a>
+                        <a href="#" onclick="setLanguage('th'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">ไทย</a>
+                        <a href="#" onclick="setLanguage('ru'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Русский</a>
+                        <a href="#" onclick="setLanguage('ko'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">한국어</a>
+                    </div>
+                </div>
             </nav>
 
             <!-- Discord Quick Join CTA -->
@@ -103,7 +121,7 @@
                 <a href="https://discord.gg/WBAmVQtfAa" target="_blank" rel="noopener noreferrer" 
                    class="inline-flex items-center gap-2 bg-brand-gold hover:bg-amber-600 text-black font-heading text-xs uppercase font-bold px-5 py-2.5 rounded-lg shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-0.5">
                     <i class="fa-brands font-bold text-base fa-discord"></i>
-                    <span>Discord</span>
+                    <span data-i18n="btn_discord">Discord</span>
                 </a>
             </div>
 
@@ -115,10 +133,10 @@
 
         <!-- Mobile Navigation Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-b border-brand-gold/30 px-4 pt-2 pb-6 space-y-3 font-heading uppercase text-sm">
-            <a href="#home" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800">Home</a>
-            <a href="#register" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800">Register</a>
-            <a href="#download" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800">Download</a>
-            <a href="#discord" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800">Discord</a>
+            <a href="#home" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_home">Home</a>
+            <a href="#register" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_register">Register</a>
+            <a href="#download" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_download">Download</a>
+            <a href="#discord" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_discord">Discord</a>
         </div>
     </header>
 
@@ -139,25 +157,25 @@
                 
                 <p class="font-heading font-semibold text-lg sm:text-2xl tracking-widest text-gray-300 mb-8 uppercase flex items-center gap-3">
                     <span class="h-0.5 w-8 bg-brand-gold inline-block"></span>
-                    THE ULTIMATE PRIVATE SERVER EXPERIENCE
+                    <span data-i18n="hero_subtitle">THE ULTIMATE PRIVATE SERVER EXPERIENCE</span>
                     <span class="h-0.5 w-8 bg-brand-gold inline-block"></span>
                 </p>
 
-                <p class="text-gray-400 max-w-2xl text-base sm:text-lg mb-10 leading-relaxed">
+                <p class="text-gray-400 max-w-2xl text-base sm:text-lg mb-10 leading-relaxed" data-i18n="hero_desc">
                     Discover a new world of adventure, engage in epic guild wars, and conquer your enemies in the AEGIS Private Server.
                 </p>
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                     <a href="#register" 
-                       class="inline-flex items-center justify-center gap-3 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-8 py-4 rounded-xl shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-1">
+                       class="inline-flex items-center justify-center gap-2 bg-brand-card hover:bg-brand-cardHover text-white font-heading font-bold text-sm uppercase px-8 py-4 rounded-xl border border-gray-700 hover:border-brand-gold transition-all duration-300">
                         <i class="fa-solid fa-user-plus text-xl"></i>
-                        <span>Register Account</span>
+                        <span data-i18n="btn_register">Register Account</span>
                     </a>
                     <a href="#download" 
                        class="inline-flex items-center justify-center gap-2 bg-brand-card hover:bg-brand-cardHover text-white font-heading font-bold text-sm uppercase px-8 py-4 rounded-xl border border-gray-700 hover:border-brand-gold transition-all duration-300">
                         <i class="fa-solid fa-download text-brand-gold"></i>
-                        <span>Download Game</span>
+                        <span data-i18n="btn_download">Download Game</span>
                     </a>
                 </div>
             </div>
@@ -167,9 +185,9 @@
         <section id="register" class="py-24 px-4 sm:px-6 lg:px-8 max-w-xl mx-auto">
             <div class="text-center mb-10">
                 <h2 class="font-heading font-black text-3xl sm:text-4xl uppercase tracking-wider mb-4">
-                    CREATE <span class="text-brand-gold text-glow">ACCOUNT</span>
+                    CREATE <span class="text-brand-gold text-glow" data-i18n="reg_title">ACCOUNT</span>
                 </h2>
-                <p class="text-gray-400 text-sm sm:text-base">
+                <p class="text-gray-400 text-sm sm:text-base" data-i18n="reg_subtitle">
                     Registration system is temporarily closed.
                 </p>
                 <div class="w-24 h-1 bg-brand-gold mx-auto mt-4 rounded-full"></div>
@@ -181,15 +199,15 @@
                     <i class="fa-solid fa-hourglass-half fa-spin"></i>
                 </div>
                 <div>
-                    <h3 class="font-heading font-bold text-xl text-white mb-2">COMING SOON</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
+                    <h3 class="font-heading font-bold text-xl text-white mb-2" data-i18n="coming_soon">COMING SOON</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="reg_desc">
                         The registration link and official server are currently being prepared. Please stay tuned to our Discord channel for announcements.
                     </p>
                 </div>
                 <a href="https://discord.gg/WBAmVQtfAa" target="_blank"
                    class="w-full inline-flex items-center justify-center gap-2 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-6 py-3.5 rounded-xl shadow-neon-gold transition-all">
                     <i class="fa-brands fa-discord"></i>
-                    <span>Join Discord for Updates</span>
+                    <span data-i18n="btn_discord_updates">Join Discord for Updates</span>
                 </a>
             </div>
         </section>
@@ -197,9 +215,9 @@
         <!-- Download Section -->
         <section id="download" class="py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
             <h2 class="font-heading font-black text-3xl sm:text-5xl uppercase tracking-wider mb-4">
-                DOWNLOAD <span class="text-brand-gold text-glow">CLIENT</span>
+                DOWNLOAD <span class="text-brand-gold text-glow" data-i18n="dl_title">CLIENT</span>
             </h2>
-            <p class="text-gray-400 max-w-xl mx-auto text-sm sm:text-base mb-10">
+            <p class="text-gray-400 max-w-xl mx-auto text-sm sm:text-base mb-10" data-i18n="dl_subtitle">
                 Download the official AEGIS client and launcher to start playing.
             </p>
             <div class="w-24 h-1 bg-brand-gold mx-auto mb-10 rounded-full"></div>
@@ -208,16 +226,16 @@
                 <div class="bg-brand-card border border-gray-800 p-8 rounded-2xl shadow-card-glow flex flex-col items-center">
                     <i class="fa-solid fa-cloud-arrow-down text-brand-gold text-4xl mb-4"></i>
                     <h3 class="font-heading font-bold text-xl text-white mb-2">WINDOWS PC</h3>
-                    <p class="text-gray-400 text-sm mb-6">Direct download for the complete game client.</p>
-                    <a href="#" target="_blank" class="w-full bg-white/5 hover:bg-brand-gold/10 border border-gray-700 hover:border-brand-gold text-white font-heading font-bold text-xs uppercase px-6 py-3 rounded-xl transition-all">
+                    <p class="text-gray-400 text-sm mb-6" data-i18n="pc_desc">Direct download for the complete game client.</p>
+                    <a href="#" target="_blank" class="w-full bg-white/5 hover:bg-brand-gold/10 border border-gray-700 hover:border-brand-gold text-white font-heading font-bold text-xs uppercase px-6 py-3 rounded-xl transition-all" data-i18n="game_download">
                         GAME DOWNLOAD
                     </a>
                 </div>
                 <div class="bg-brand-card border border-gray-800 p-8 rounded-2xl shadow-card-glow flex flex-col items-center">
                     <i class="fa-solid fa-bolt text-brand-gold text-4xl mb-4"></i>
                     <h3 class="font-heading font-bold text-xl text-white mb-2">ANDROID APK</h3>
-                    <p class="text-gray-400 text-sm mb-6">For updates and existing installations.</p>
-                    <a href="#" target="_blank" class="w-full bg-white/5 hover:bg-brand-gold/10 border border-gray-700 hover:border-brand-gold text-white font-heading font-bold text-xs uppercase px-6 py-3 rounded-xl transition-all">
+                    <p class="text-gray-400 text-sm mb-6" data-i18n="apk_desc">For updates and existing installations.</p>
+                    <a href="#" target="_blank" class="w-full bg-white/5 hover:bg-brand-gold/10 border border-gray-700 hover:border-brand-gold text-white font-heading font-bold text-xs uppercase px-6 py-3 rounded-xl transition-all" data-i18n="game_download">
                         GAME DOWNLOAD
                     </a>
                 </div>
@@ -233,12 +251,12 @@
                 <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
                     <div class="text-center lg:text-left max-w-2xl">
                         <div class="inline-flex items-center gap-2 bg-brand-gold/20 text-brand-gold border border-brand-gold/30 px-4 py-1.5 rounded-full text-xs font-heading font-bold uppercase mb-4">
-                            <i class="fa-brands fa-discord text-base"></i> Community Hub
+                            <i class="fa-brands fa-discord text-base"></i> <span data-i18n="comm_hub">Community Hub</span>
                         </div>
                         <h2 class="font-heading font-black text-3xl sm:text-5xl uppercase tracking-wider text-white mb-4">
-                            JOIN THE <span class="text-brand-gold text-glow">AEGIS DISCORD</span>
+                            JOIN THE <span class="text-brand-gold text-glow" data-i18n="discord_title">AEGIS DISCORD</span>
                         </h2>
-                        <p class="text-gray-300 text-base sm:text-lg leading-relaxed">
+                        <p class="text-gray-300 text-base sm:text-lg leading-relaxed" data-i18n="discord_desc">
                             Connect with fellow players, get the latest updates, and get support from our community.
                         </p>
                     </div>
@@ -247,7 +265,7 @@
                         <a href="https://discord.gg/WBAmVQtfAa" target="_blank" rel="noopener noreferrer" 
                            class="inline-flex items-center justify-center gap-3 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-base uppercase px-8 py-5 rounded-2xl shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-1">
                             <i class="fa-brands fa-discord text-2xl"></i>
-                            <span>Join Discord</span>
+                            <span data-i18n="btn_join_discord">Join Discord</span>
                         </a>
                     </div>
                 </div>
@@ -262,16 +280,16 @@
                 <img src="logo.png" alt="AEGIS Logo Small" class="h-10 w-auto rounded logo-glow">
                 <div>
                     <span class="font-heading font-bold text-lg text-white tracking-wider block">LEGENDARY AEGIS</span>
-                    <span class="text-xs text-gray-500">Play. Conquer. Dominate.</span>
+                    <span class="text-xs text-gray-500" data-i18n="footer_tagline">Play. Conquer. Dominate.</span>
                 </div>
             </div>
 
-            <p class="text-xs text-gray-500">
+            <p class="text-xs text-gray-500" data-i18n="copyright">
                 &copy; 2026 LEGENDARY AEGIS. All rights reserved.
             </p>
 
             <div class="flex items-center space-x-5 text-gray-400">
-                <a href="https://discord.gg/V87ZwmcxbM" target="_blank" class="hover:text-brand-gold transition-colors text-lg"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://discord.gg/WBAmVQtfAa" target="_blank" class="hover:text-brand-gold transition-colors text-lg"><i class="fa-brands fa-discord"></i></a>
                 <a href="#" class="hover:text-brand-gold transition-colors text-lg"><i class="fa-brands fa-facebook"></i></a>
             </div>
         </div>
@@ -279,6 +297,226 @@
 
     <!-- Scripts Section -->
     <script>
+        // Dictionary para sa iba't ibang wika
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_register: "Register",
+                nav_download: "Download",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "THE ULTIMATE PRIVATE SERVER EXPERIENCE",
+                hero_desc: "Discover a new world of adventure, engage in epic guild wars, and conquer your enemies in the AEGIS Private Server.",
+                btn_register: "Register Account",
+                btn_download: "Download Game",
+                reg_title: "ACCOUNT",
+                reg_subtitle: "Registration system is temporarily closed.",
+                coming_soon: "COMING SOON",
+                reg_desc: "The registration link and official server are currently being prepared. Please stay tuned to our Discord channel for announcements.",
+                btn_discord_updates: "Join Discord for Updates",
+                dl_title: "CLIENT",
+                dl_subtitle: "Download the official AEGIS client and launcher to start playing.",
+                pc_desc: "Direct download for the complete game client.",
+                apk_desc: "For updates and existing installations.",
+                game_download: "GAME DOWNLOAD",
+                comm_hub: "Community Hub",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Connect with fellow players, get the latest updates, and get support from our community.",
+                btn_join_discord: "Join Discord",
+                footer_tagline: "Play. Conquer. Dominate.",
+                copyright: "© 2026 LEGENDARY AEGIS. All rights reserved."
+            },
+            pt: {
+                nav_home: "Início",
+                nav_register: "Registrar",
+                nav_download: "Baixar",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "A EXPERIÊNCIA DEFINITIVA DE SERVIDOR PRIVADO",
+                hero_desc: "Descubra um novo mundo de aventura, participe de guerras de guildas épicas e conquiste seus inimigos no Servidor Privado AEGIS.",
+                btn_register: "Criar Conta",
+                btn_download: "Baixar Jogo",
+                reg_title: "CONTA",
+                reg_subtitle: "O sistema de registro está temporariamente fechado.",
+                coming_soon: "EM BREVE",
+                reg_desc: "O link de registro e o servidor oficial estão sendo preparados no momento. Fique atento ao nosso canal no Discord para anúncios.",
+                btn_discord_updates: "Entre no Discord para Atualizações",
+                dl_title: "CLIENTE",
+                dl_subtitle: "Baixe o cliente oficial do AEGIS e o launcher para começar a jogar.",
+                pc_desc: "Download direto para o cliente completo do jogo.",
+                apk_desc: "Para atualizações e instalações existentes.",
+                game_download: "BAIXAR JOGO",
+                comm_hub: "Centro Comunitário",
+                discord_title: "DISCORD DO AEGIS",
+                discord_desc: "Conecte-se com outros jogadores, obtenha as últimas atualizações e suporte da nossa comunidade.",
+                btn_join_discord: "Entrar no Discord",
+                footer_tagline: "Jogue. Conquiste. Domine.",
+                copyright: "© 2026 LEGENDARY AEGIS. Todos os direitos reservados."
+            },
+            zh: {
+                nav_home: "首页",
+                nav_register: "注册",
+                nav_download: "下载",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "终极私服体验",
+                hero_desc: "在AEGIS私服中探索全新的冒险世界，参与史诗级的公会战，战胜你的敌人。",
+                btn_register: "注册账号",
+                btn_download: "下载游戏",
+                reg_title: "账号",
+                reg_subtitle: "注册系统暂时关闭。",
+                coming_soon: "敬请期待",
+                reg_desc: "注册链接与官方服务器正在筹备中，请密切关注我们的Discord频道以获取最新公告。",
+                btn_discord_updates: "加入Discord获取更新",
+                dl_title: "客户端",
+                dl_subtitle: "下载官方AEGIS客户端和启动器以开始游戏。",
+                pc_desc: "完整游戏客户端直接下载。",
+                apk_desc: "用于更新和现有安装。",
+                game_download: "游戏下载",
+                comm_hub: "社区中心",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "与其他玩家交流，获取最新动态并获得社区支持。",
+                btn_join_discord: "加入Discord",
+                footer_tagline: "畅玩。征服。统治。",
+                copyright: "© 2026 LEGENDARY AEGIS. 保留所有权利。"
+            },
+            ph: {
+                nav_home: "Tahanan",
+                nav_register: "Magrehistro",
+                nav_download: "I-download",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "ANG PINAKAMAHUSAY NA PRIVATE SERVER",
+                hero_desc: "Tumuklas ng bagong mundo ng pakikipagsapalaran, sumali sa mga digmaan ng guild, at talunin ang mga kalaban sa AEGIS Private Server.",
+                btn_register: "Gumawa ng Account",
+                btn_download: "I-download ang Laro",
+                reg_title: "ACCOUNT",
+                reg_subtitle: "Ang sistema ng pagrehistro ay pansamantalang sarado.",
+                coming_soon: "ABANGAN",
+                reg_desc: "Kasalukuyang hinahanda ang link ng pagrehistro at opisyal na server. Mangyaring abangan ang aming Discord channel para sa mga anunsyo.",
+                btn_discord_updates: "Sumali sa Discord para sa mga Update",
+                dl_title: "CLIENT",
+                dl_subtitle: "I-download ang opisyal na AEGIS client at launcher upang magsimulang maglaro.",
+                pc_desc: "Direktang pag-download para sa kumpletong client ng laro.",
+                apk_desc: "Para sa mga update at umiiral na pag-install.",
+                game_download: "I-DOWNLOAD ANG LARO",
+                comm_hub: "Community Hub",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Makipag-ugnayan sa kapwa manlalaro, alamin ang mga huling update, at humingi ng tulong sa komunidad.",
+                btn_join_discord: "Sumali sa Discord",
+                footer_tagline: "Maglaro. Lupigin. Mangibabaw.",
+                copyright: "© 2026 LEGENDARY AEGIS. All rights reserved."
+            },
+            id: {
+                nav_home: "Beranda",
+                nav_register: "Daftar",
+                nav_download: "Unduh",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "PENGALAMAN SERVER PRIBADI TERBAIK",
+                hero_desc: "Temukan dunia petualangan baru, ikuti perang guild yang epik, dan taklukkan musuh Anda di Server Pribadi AEGIS.",
+                btn_register: "Daftar Akun",
+                btn_download: "Unduh Game",
+                reg_title: "AKUN",
+                reg_subtitle: "Sistem pendaftaran sementara ditutup.",
+                coming_soon: "SEGERA HADIR",
+                reg_desc: "Tautan pendaftaran dan server resmi sedang dipersiapkan. Harap pantau saluran Discord kami untuk pengumuman.",
+                btn_discord_updates: "Gabung Discord untuk Pembaruan",
+                dl_title: "KLIEN",
+                dl_subtitle: "Unduh klien resmi AEGIS dan peluncur untuk mulai bermain.",
+                pc_desc: "Unduh langsung untuk klien game lengkap.",
+                apk_desc: "Untuk pembaruan dan instalasi yang ada.",
+                game_download: "UNDUH GAME",
+                comm_hub: "Pusat Komunitas",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Terhubung dengan pemain lain, dapatkan pembaruan terkini, dan dapatkan dukungan dari komunitas kami.",
+                btn_join_discord: "Gabung Discord",
+                footer_tagline: "Bermain. Taklukan. Dominasi.",
+                copyright: "© 2026 LEGENDARY AEGIS. Hak cipta dilindungi."
+            },
+            th: {
+                nav_home: "หน้าแรก",
+                nav_register: "สมัครสมาชิก",
+                nav_download: "ดาวน์โหลด",
+                nav_discord: "ดิสคอร์ด",
+                btn_discord: "Discord",
+                hero_subtitle: "ประสบการณ์เซิร์ฟเวอร์ส่วนตัวที่ดีที่สุด",
+                hero_desc: "ค้นพบโลกแห่งการผจญภัยครั้งใหม่ เข้าร่วมสงครามกิลด์สุดอลังการ และพิชิตศัตรูของคุณใน AEGIS Private Server",
+                btn_register: "สร้างบัญชี",
+                btn_download: "ดาวน์โหลดเกม",
+                reg_title: "บัญชี",
+                reg_subtitle: "ระบบสมัครสมาชิกปิดชั่วคราว",
+                coming_soon: "เร็วๆ นี้",
+                reg_desc: "ลิงก์สมัครสมาชิกและเซิร์ฟเวอร์ทางการกำลังอยู่ระหว่างการเตรียมการ โปรดติดตามประกาศได้ที่ช่อง Discord ของเรา",
+                btn_discord_updates: "เข้าร่วม Discord เพื่อรับข่าวสาร",
+                dl_title: "ไคลเอนต์",
+                dl_subtitle: "ดาวน์โหลดไคลเอนต์และตัวเปิดเกมอย่างเป็นทางการของ AEGIS เพื่อเริ่มเล่น",
+                pc_desc: "ดาวน์โหลดโดยตรงสำหรับไคลเอนต์เกมตัวเต็ม",
+                apk_desc: "สำหรับการอัปเดตและการติดตั้งที่มีอยู่",
+                game_download: "ดาวน์โหลดเกม",
+                comm_hub: "ศูนย์กลางชุมชน",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "เชื่อมต่อกับผู้เล่นคนอื่นๆ รับข้อมูลอัปเดตล่าสุด และรับการสนับสนุนจากชุมชนของเรา",
+                btn_join_discord: "เข้าร่วม Discord",
+                footer_tagline: "เล่น พิชิต ครอบงำ",
+                copyright: "© 2026 LEGENDARY AEGIS. สงวนลิขสิทธิ์ทั้งหมด"
+            },
+            ru: {
+                nav_home: "Главная",
+                nav_register: "Регистрация",
+                nav_download: "Скачать",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "ЛУЧШИЙ ОПЫТ ПРИВАТНОГО СЕРВЕРА",
+                hero_desc: "Откройте для себя новый мир приключений, участвуйте в эпических войнах гильдий и побеждайте врагов на сервере AEGIS.",
+                btn_register: "Создать аккаунт",
+                btn_download: "Скачать игру",
+                reg_title: "АККАУНТ",
+                reg_subtitle: "Система регистрации временно закрыта.",
+                coming_soon: "СКОРО",
+                reg_desc: "Ссылка на регистрацию и официальный сервер в настоящее время готовятся. Следите за анонсами в нашем канале Discord.",
+                btn_discord_updates: "Вступить в Discord для обновлений",
+                dl_title: "КЛИЕНТ",
+                dl_subtitle: "Загрузите официальный клиент и лаунчер AEGIS, чтобы начать игру.",
+                pc_desc: "Прямая загрузка полного игрового клиента.",
+                apk_desc: "Для обновлений и существующих установок.",
+                game_download: "СКАЧАТЬ ИГРУ",
+                comm_hub: "Сообщество",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Общайтесь с другими игроками, получайте последние обновления и поддержку от нашего сообщества.",
+                btn_join_discord: "Присоединиться к Discord",
+                footer_tagline: "Играй. Покоряй. Властвуй.",
+                copyright: "© 2026 LEGENDARY AEGIS. Все права защищены."
+            },
+            ko: {
+                nav_home: "홈",
+                nav_register: "회원가입",
+                nav_download: "다운로드",
+                nav_discord: "디스코드",
+                btn_discord: "Discord",
+                hero_subtitle: "최고의 프라이빗 서버 경험",
+                hero_desc: "AEGIS 프라이빗 서버에서 새로운 모험의 세계를 발견하고, 치열한 길드전에 참여하며 적을 정복하세요.",
+                btn_register: "계정 만들기",
+                btn_download: "게임 다운로드",
+                reg_title: "계정",
+                reg_subtitle: "회원가입 시스템이 일시적으로 중단되었습니다.",
+                coming_soon: "출시 예정",
+                reg_desc: "가입 링크와 공식 서버가 현재 준비 중입니다. 디스코드 채널에서 공지사항을 확인해 주세요.",
+                btn_discord_updates: "디스코드 가입하고 소식 받기",
+                dl_title: "클라이언트",
+                dl_subtitle: "공식 AEGIS 클라이언트와 런처를 다운로드하여 게임을 시작하세요.",
+                pc_desc: "전체 게임 클라이언트 직접 다운로드.",
+                apk_desc: "업데이트 및 기존 설치용.",
+                game_download: "게임 다운로드",
+                comm_hub: "커뮤니티 허브",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "다른 플레이어들과 소통하고, 최신 업데이트를 확인하며, 커뮤니티의 지원을 받으세요.",
+                btn_join_discord: "디스코드 참여하기",
+                footer_tagline: "플레이. 정복. 지배.",
+                copyright: "© 2026 LEGENDARY AEGIS. All rights reserved."
+            }
+        };
+
         // Mobile Navigation Menu Toggle
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -293,6 +531,55 @@
                     mobileMenu.classList.add('hidden');
                 });
             });
+        }
+
+        // Language Dropdown Toggle and Selection
+        const langBtn = document.getElementById('lang-menu-btn');
+        const langDropdown = document.getElementById('lang-dropdown');
+        const currentLangSpan = document.getElementById('current-lang');
+
+        if (langBtn && langDropdown) {
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langDropdown.classList.toggle('hidden');
+            });
+
+            window.addEventListener('click', () => {
+                if (!langDropdown.classList.contains('hidden')) {
+                    langDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            const langCodes = {
+                en: 'EN',
+                pt: 'PT',
+                zh: 'ZH',
+                ph: 'PH',
+                id: 'ID',
+                th: 'TH',
+                ru: 'RU',
+                ko: 'KO'
+            };
+
+            if (currentLangSpan) {
+                currentLangSpan.innerText = langCodes[lang] || 'EN';
+            }
+
+            // Palitan ang mga text base sa napiling wika
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            // Itago ang dropdown pagkatapos pumili
+            if (langDropdown) {
+                langDropdown.classList.add('hidden');
+            }
         }
     </script>
 </body>
