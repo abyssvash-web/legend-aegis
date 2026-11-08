@@ -9,6 +9,7 @@ window.AEGIS_I18N.en = {
                 hero_desc: "Discover a new world of adventure, engage in epic guild wars, and conquer your enemies in the AEGIS Private Server.",
                 btn_register: "Register Account",
                 btn_download: "Download Game",
+                btn_recharge: "Recharge",
                 reg_title: "ACCOUNT",
                 reg_subtitle: "Registration system is temporarily closed.",
                 coming_soon: "COMING SOON",

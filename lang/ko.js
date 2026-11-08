@@ -9,6 +9,7 @@ window.AEGIS_I18N.ko = {
                 hero_desc: "AEGIS 프라이빗 서버에서 새로운 모험의 세계를 발견하고, 치열한 길드전에 참여하며 적을 정복하세요.",
                 btn_register: "계정 만들기",
                 btn_download: "게임 다운로드",
+                btn_recharge: "충전",
                 reg_title: "계정",
                 reg_subtitle: "회원가입 시스템이 일시적으로 중단되었습니다.",
                 coming_soon: "출시 예정",

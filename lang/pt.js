@@ -9,6 +9,7 @@ window.AEGIS_I18N.pt = {
                 hero_desc: "Descubra um novo mundo de aventura, participe de guerras de guildas épicas e conquiste seus inimigos no Servidor Privado AEGIS.",
                 btn_register: "Criar Conta",
                 btn_download: "Baixar Jogo",
+                btn_recharge: "Recarregar",
                 reg_title: "CONTA",
                 reg_subtitle: "O sistema de registro está temporariamente fechado.",
                 coming_soon: "EM BREVE",

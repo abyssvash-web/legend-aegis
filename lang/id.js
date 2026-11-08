@@ -9,6 +9,7 @@ window.AEGIS_I18N.id = {
                 hero_desc: "Temukan dunia petualangan baru, ikuti perang guild yang epik, dan taklukkan musuh Anda di Server Pribadi AEGIS.",
                 btn_register: "Daftar Akun",
                 btn_download: "Unduh Game",
+                btn_recharge: "Isi Ulang",
                 reg_title: "AKUN",
                 reg_subtitle: "Sistem pendaftaran sementara ditutup.",
                 coming_soon: "SEGERA HADIR",

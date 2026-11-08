@@ -9,6 +9,7 @@ window.AEGIS_I18N.vi = {
                 hero_desc: "Khám phá thế giới phiêu lưu mới, tham gia các cuộc chiến bang hội hoành tráng và chinh phục kẻ thù của bạn trong Máy chủ riêng AEGIS.",
                 btn_register: "Đăng ký tài khoản",
                 btn_download: "Tải game",
+                btn_recharge: "Nạp Thẻ",
                 reg_title: "TÀI KHOẢN",
                 reg_subtitle: "Hệ thống đăng ký tạm thời đóng cửa.",
                 coming_soon: "SẮP RA MẮT",

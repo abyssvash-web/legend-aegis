@@ -9,6 +9,7 @@ window.AEGIS_I18N.zh = {
                 hero_desc: "在AEGIS私服中探索全新的冒险世界，参与史诗级的公会战，战胜你的敌人。",
                 btn_register: "注册账号",
                 btn_download: "下载游戏",
+                btn_recharge: "充值",
                 reg_title: "账号",
                 reg_subtitle: "注册系统暂时关闭。",
                 coming_soon: "敬请期待",

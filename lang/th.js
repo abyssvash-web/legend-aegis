@@ -9,6 +9,7 @@ window.AEGIS_I18N.th = {
                 hero_desc: "ค้นพบโลกแห่งการผจญภัยครั้งใหม่ เข้าร่วมสงครามกิลด์สุดอลังการ และพิชิตศัตรูของคุณใน AEGIS Private Server",
                 btn_register: "สร้างบัญชี",
                 btn_download: "ดาวน์โหลดเกม",
+                btn_recharge: "เติมเงิน",
                 reg_title: "บัญชี",
                 reg_subtitle: "ระบบสมัครสมาชิกปิดชั่วคราว",
                 coming_soon: "เร็วๆ นี้",

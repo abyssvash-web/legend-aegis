@@ -9,6 +9,7 @@ window.AEGIS_I18N.ph = {
                 hero_desc: "Tumuklas ng bagong mundo ng pakikipagsapalaran, sumali sa mga digmaan ng guild, at talunin ang mga kalaban sa AEGIS Private Server.",
                 btn_register: "Gumawa ng Account",
                 btn_download: "I-download ang Laro",
+                btn_recharge: "Mag-recharge",
                 reg_title: "ACCOUNT",
                 reg_subtitle: "Ang sistema ng pagrehistro ay pansamantalang sarado.",
                 coming_soon: "ABANGAN",
