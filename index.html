@@ -156,41 +156,36 @@
         </section>
 
         <!-- Recharge Section -->
-        <section id="recharge" class="py-24 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+        <section id="recharge" class="py-24 px-4 sm:px-6 lg:px-8 max-w-xl mx-auto">
             <div class="text-center mb-10">
                 <h2 class="font-heading font-black text-3xl sm:text-4xl uppercase tracking-wider mb-4"><span data-i18n="rc_title_a">RECHARGE</span> <span class="text-brand-gold text-glow" data-i18n="rc_title_b">CENTER</span></h2>
-                <p class="text-gray-400 text-sm sm:text-base" data-i18n="rc_subtitle">Top up your game account in three simple steps.</p>
+                <p class="text-gray-400 text-sm sm:text-base" data-i18n="rc_subtitle">Top up your game account securely.</p>
                 <div class="w-24 h-1 bg-brand-gold mx-auto mt-4 rounded-full"></div>
             </div>
+            <p id="rc-banner" role="status" class="hidden mb-6 bg-green-500/10 border border-green-500/40 rounded-xl p-4 text-green-300 text-sm text-center"></p>
             <p id="rc-closed" class="hidden bg-brand-card border border-brand-gold/40 rounded-2xl p-8 text-center text-gray-300" data-i18n="rc_closed"></p>
-            <form id="rc-form" novalidate class="bg-brand-card border border-brand-gold/40 rounded-2xl shadow-neon-gold p-6 sm:p-8 space-y-8">
+            <form id="rc-form" novalidate class="bg-brand-card border border-brand-gold/40 rounded-2xl shadow-neon-gold p-6 sm:p-8 space-y-6">
                 <div>
-                    <h3 class="font-heading font-bold text-sm uppercase text-brand-gold mb-3" data-i18n="rc_s1">1. Game Account</h3>
-                    <input id="rc-account" name="account" maxlength="20" autocomplete="username" data-i18n-ph="rc_account_ph" class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold outline-none rounded-xl px-4 py-3 text-white">
+                    <label for="rc-package" class="block text-sm font-semibold text-gray-200 mb-2" data-i18n="rc_amount">Recharge Amount</label>
+                    <select id="rc-package" class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold outline-none rounded-xl px-4 py-3 text-white"><option value="" data-i18n="rc_choose">Choose Game Cash</option></select>
                 </div>
-                <div>
-                    <h3 class="font-heading font-bold text-sm uppercase text-brand-gold mb-3" data-i18n="rc_s2">2. Choose Package</h3>
-                    <div id="rc-packages" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+                <div class="flex items-center justify-between bg-brand-gold/5 border border-brand-gold/30 rounded-xl p-4">
+                    <div><div class="text-sm text-gray-200" data-i18n="rc_total_label">Order total</div><div id="rc-usdt" class="text-xs text-gray-500">0.00 USDT</div><div id="rc-rate" class="text-xs text-gray-500"></div></div>
+                    <div id="rc-total" class="font-heading font-black text-2xl text-brand-gold">₱0.00</div>
                 </div>
-                <div>
-                    <h3 class="font-heading font-bold text-sm uppercase text-brand-gold mb-3" data-i18n="rc_s3">3. Payment Method</h3>
-                    <div id="rc-methods" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div><label for="rc-username" class="block text-sm font-semibold text-gray-200 mb-2" data-i18n="rc_username">In-game Username</label><input id="rc-username" maxlength="20" autocomplete="username" data-i18n-ph="rc_username_ph" class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold outline-none rounded-xl px-4 py-3 text-white"></div>
+                    <div><label for="rc-email" class="block text-sm font-semibold text-gray-200 mb-2" data-i18n="rc_email">Email for Receipt</label><input id="rc-email" type="email" autocomplete="email" placeholder="you@example.com" class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold outline-none rounded-xl px-4 py-3 text-white"></div>
                 </div>
+                <div class="border border-gray-800 rounded-xl p-4 text-sm text-gray-300">
+                    <details class="mb-3"><summary class="cursor-pointer text-brand-gold font-semibold" data-i18n="rc_terms_title">Read the Terms &amp; Conditions</summary><p class="mt-2 text-gray-400" data-i18n="rc_terms_body"></p></details>
+                    <label class="flex gap-3 items-start cursor-pointer"><input id="rc-terms" type="checkbox" class="mt-1 accent-amber-500"><span data-i18n="rc_agree">I have checked my in-game username and agree to the Terms &amp; Conditions. No refunds once the recharge is processed.</span></label>
+                </div>
+                <div id="rc-turnstile" class="flex justify-center"></div>
                 <p id="rc-error" role="alert" class="hidden text-red-400 text-sm"></p>
-                <button type="submit" id="rc-submit" class="w-full bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-6 py-4 rounded-xl shadow-neon-gold transition-all" data-i18n="rc_submit">Submit Order</button>
+                <button type="submit" id="rc-submit" class="w-full bg-brand-gold hover:bg-amber-600 disabled:opacity-60 text-black font-heading font-bold text-sm uppercase px-6 py-4 rounded-xl shadow-neon-gold transition-all"><i class="fa-solid fa-lock mr-2"></i><span data-i18n="rc_submit">Continue to Secure Checkout</span></button>
+                <p class="text-center text-xs text-gray-500" data-i18n="rc_secure_note">Payment is confirmed by our server after HitPay verifies it.</p>
             </form>
-            <div id="rc-result" class="hidden bg-brand-card border border-brand-gold/40 rounded-2xl shadow-neon-gold p-8 text-center space-y-4">
-                <h3 class="font-heading font-bold text-xl text-white" data-i18n="rc_done">ORDER CREATED</h3>
-                <p class="text-gray-400 text-sm"><span data-i18n="rc_ref">Order Reference</span>: <strong id="rc-ref" class="text-brand-gold font-heading"></strong></p>
-                <p id="rc-summary" class="text-gray-200 text-sm"></p>
-                <p id="rc-pay" class="text-gray-200 text-sm"></p>
-                <p class="text-gray-400 text-sm" data-i18n="rc_note"></p>
-                <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                    <button type="button" id="rc-copy" class="border border-gray-700 hover:border-brand-gold text-white font-heading text-xs uppercase px-6 py-3 rounded-xl" data-i18n="rc_copy">Copy Details</button>
-                    <a id="rc-discord" target="_blank" rel="noopener noreferrer" class="bg-brand-gold text-black font-heading font-bold text-xs uppercase px-6 py-3 rounded-xl" data-i18n="rc_proof">Send Proof on Discord</a>
-                    <button type="button" id="rc-again" class="border border-gray-700 hover:border-brand-gold text-white font-heading text-xs uppercase px-6 py-3 rounded-xl" data-i18n="rc_again">New Order</button>
-                </div>
-            </div>
         </section>
 
         <!-- Download Section -->
