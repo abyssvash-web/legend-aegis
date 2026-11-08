@@ -1,6 +1,10 @@
 // Server-side price list: the ONLY source of truth for prices. Add more packages here.
 const PACKAGES = {
-  c50: { cash: 50, usdt: 8 }
+  c50: { cash: 50, usdt: 8 },
+  c100:  { cash: 100,  usdt: 15 },
+  c300:  { cash: 300,  usdt: 42 },
+  c500:  { cash: 500,  usdt: 68 },
+  c1000: { cash: 1000, usdt: 130 }
 };
 const HITPAY = () => process.env.HITPAY_ENV === 'sandbox' ? 'https://api.sandbox.hit-pay.com' : 'https://api.hit-pay.com';
 const HEADERS = () => ({ 'X-BUSINESS-API-KEY': process.env.HITPAY_API_KEY || '', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' });
