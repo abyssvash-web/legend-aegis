@@ -1,0 +1,28 @@
+window.AEGIS_I18N = window.AEGIS_I18N || {};
+window.AEGIS_I18N.th = {
+                nav_home: "หน้าแรก",
+                nav_register: "สมัครสมาชิก",
+                nav_download: "ดาวน์โหลด",
+                nav_discord: "ดิสคอร์ด",
+                btn_discord: "Discord",
+                hero_subtitle: "ประสบการณ์เซิร์ฟเวอร์ส่วนตัวที่ดีที่สุด",
+                hero_desc: "ค้นพบโลกแห่งการผจญภัยครั้งใหม่ เข้าร่วมสงครามกิลด์สุดอลังการ และพิชิตศัตรูของคุณใน AEGIS Private Server",
+                btn_register: "สร้างบัญชี",
+                btn_download: "ดาวน์โหลดเกม",
+                reg_title: "บัญชี",
+                reg_subtitle: "ระบบสมัครสมาชิกปิดชั่วคราว",
+                coming_soon: "เร็วๆ นี้",
+                reg_desc: "ลิงก์สมัครสมาชิกและเซิร์ฟเวอร์ทางการกำลังอยู่ระหว่างการเตรียมการ โปรดติดตามประกาศได้ที่ช่อง Discord ของเรา",
+                btn_discord_updates: "เข้าร่วม Discord เพื่อรับข่าวสาร",
+                dl_title: "ไคลเอนต์",
+                dl_subtitle: "ดาวน์โหลดไคลเอนต์และตัวเปิดเกมอย่างเป็นทางการของ AEGIS เพื่อเริ่มเล่น",
+                pc_desc: "ดาวน์โหลดโดยตรงสำหรับไคลเอนต์เกมตัวเต็ม",
+                apk_desc: "สำหรับการอัปเดตและการติดตั้งที่มีอยู่",
+                game_download: "ดาวน์โหลดเกม",
+                comm_hub: "ศูนย์กลางชุมชน",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "เชื่อมต่อกับผู้เล่นคนอื่นๆ รับข้อมูลอัปเดตล่าสุด และรับการสนับสนุนจากชุมชนของเรา",
+                btn_join_discord: "เข้าร่วม Discord",
+                footer_tagline: "เล่น พิชิต ครอบงำ",
+                copyright: "© 2026 LEGEND AEGIS. สงวนลิขสิทธิ์ทั้งหมด"
+};

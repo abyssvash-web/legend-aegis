@@ -1,0 +1,28 @@
+window.AEGIS_I18N = window.AEGIS_I18N || {};
+window.AEGIS_I18N.pt = {
+                nav_home: "Início",
+                nav_register: "Registrar",
+                nav_download: "Baixar",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "A EXPERIÊNCIA DEFINITIVA DE SERVIDOR PRIVADO",
+                hero_desc: "Descubra um novo mundo de aventura, participe de guerras de guildas épicas e conquiste seus inimigos no Servidor Privado AEGIS.",
+                btn_register: "Criar Conta",
+                btn_download: "Baixar Jogo",
+                reg_title: "CONTA",
+                reg_subtitle: "O sistema de registro está temporariamente fechado.",
+                coming_soon: "EM BREVE",
+                reg_desc: "O link de registro e o servidor oficial estão sendo preparados no momento. Fique atento ao nosso canal no Discord para anúncios.",
+                btn_discord_updates: "Entre no Discord para Atualizações",
+                dl_title: "CLIENTE",
+                dl_subtitle: "Baixe o cliente oficial do AEGIS e o launcher para começar a jogar.",
+                pc_desc: "Download direto para o cliente completo do jogo.",
+                apk_desc: "Para atualizações e instalações existentes.",
+                game_download: "BAIXAR JOGO",
+                comm_hub: "Centro Comunitário",
+                discord_title: "DISCORD DO AEGIS",
+                discord_desc: "Conecte-se com outros jogadores, obtenha as últimas atualizações e suporte da nossa comunidade.",
+                btn_join_discord: "Entrar no Discord",
+                footer_tagline: "Jogue. Conquiste. Domine.",
+                copyright: "© 2026 LEGEND AEGIS. Todos os direitos reservados."
+};

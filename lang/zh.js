@@ -1,0 +1,28 @@
+window.AEGIS_I18N = window.AEGIS_I18N || {};
+window.AEGIS_I18N.zh = {
+                nav_home: "首页",
+                nav_register: "注册",
+                nav_download: "下载",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "终极私服体验",
+                hero_desc: "在AEGIS私服中探索全新的冒险世界，参与史诗级的公会战，战胜你的敌人。",
+                btn_register: "注册账号",
+                btn_download: "下载游戏",
+                reg_title: "账号",
+                reg_subtitle: "注册系统暂时关闭。",
+                coming_soon: "敬请期待",
+                reg_desc: "注册链接与官方服务器正在筹备中，请密切关注我们的Discord频道以获取最新公告。",
+                btn_discord_updates: "加入Discord获取更新",
+                dl_title: "客户端",
+                dl_subtitle: "下载官方AEGIS客户端和启动器以开始游戏。",
+                pc_desc: "完整游戏客户端直接下载。",
+                apk_desc: "用于更新和现有安装。",
+                game_download: "游戏下载",
+                comm_hub: "社区中心",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "与其他玩家交流，获取最新动态并获得社区支持。",
+                btn_join_discord: "加入Discord",
+                footer_tagline: "畅玩。征服。统治。",
+                copyright: "© 2026 LEGEND AEGIS. 保留所有权利。"
+};

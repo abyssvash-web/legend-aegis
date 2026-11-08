@@ -1,0 +1,28 @@
+window.AEGIS_I18N = window.AEGIS_I18N || {};
+window.AEGIS_I18N.id = {
+                nav_home: "Beranda",
+                nav_register: "Daftar",
+                nav_download: "Unduh",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "PENGALAMAN SERVER PRIBADI TERBAIK",
+                hero_desc: "Temukan dunia petualangan baru, ikuti perang guild yang epik, dan taklukkan musuh Anda di Server Pribadi AEGIS.",
+                btn_register: "Daftar Akun",
+                btn_download: "Unduh Game",
+                reg_title: "AKUN",
+                reg_subtitle: "Sistem pendaftaran sementara ditutup.",
+                coming_soon: "SEGERA HADIR",
+                reg_desc: "Tautan pendaftaran dan server resmi sedang dipersiapkan. Harap pantau saluran Discord kami untuk pengumuman.",
+                btn_discord_updates: "Gabung Discord untuk Pembaruan",
+                dl_title: "KLIEN",
+                dl_subtitle: "Unduh klien resmi AEGIS dan peluncur untuk mulai bermain.",
+                pc_desc: "Unduh langsung untuk klien game lengkap.",
+                apk_desc: "Untuk pembaruan dan instalasi yang ada.",
+                game_download: "UNDUH GAME",
+                comm_hub: "Pusat Komunitas",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Terhubung dengan pemain lain, dapatkan pembaruan terkini, dan dapatkan dukungan dari komunitas kami.",
+                btn_join_discord: "Gabung Discord",
+                footer_tagline: "Bermain. Taklukan. Dominasi.",
+                copyright: "© 2026 LEGEND AEGIS. Hak cipta dilindungi."
+};

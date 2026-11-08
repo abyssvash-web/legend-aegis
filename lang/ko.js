@@ -1,0 +1,28 @@
+window.AEGIS_I18N = window.AEGIS_I18N || {};
+window.AEGIS_I18N.ko = {
+                nav_home: "홈",
+                nav_register: "회원가입",
+                nav_download: "다운로드",
+                nav_discord: "디스코드",
+                btn_discord: "Discord",
+                hero_subtitle: "최고의 프라이빗 서버 경험",
+                hero_desc: "AEGIS 프라이빗 서버에서 새로운 모험의 세계를 발견하고, 치열한 길드전에 참여하며 적을 정복하세요.",
+                btn_register: "계정 만들기",
+                btn_download: "게임 다운로드",
+                reg_title: "계정",
+                reg_subtitle: "회원가입 시스템이 일시적으로 중단되었습니다.",
+                coming_soon: "출시 예정",
+                reg_desc: "가입 링크와 공식 서버가 현재 준비 중입니다. 디스코드 채널에서 공지사항을 확인해 주세요.",
+                btn_discord_updates: "디스코드 가입하고 소식 받기",
+                dl_title: "클라이언트",
+                dl_subtitle: "공식 AEGIS 클라이언트와 런처를 다운로드하여 게임을 시작하세요.",
+                pc_desc: "전체 게임 클라이언트 직접 다운로드.",
+                apk_desc: "업데이트 및 기존 설치용.",
+                game_download: "게임 다운로드",
+                comm_hub: "커뮤니티 허브",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "다른 플레이어들과 소통하고, 최신 업데이트를 확인하며, 커뮤니티의 지원을 받으세요.",
+                btn_join_discord: "디스코드 참여하기",
+                footer_tagline: "플레이. 정복. 지배.",
+                copyright: "© 2026 LEGEND AEGIS. All rights reserved."
+};

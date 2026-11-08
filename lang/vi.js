@@ -1,0 +1,28 @@
+window.AEGIS_I18N = window.AEGIS_I18N || {};
+window.AEGIS_I18N.vi = {
+                nav_home: "Trang chủ",
+                nav_register: "Đăng ký",
+                nav_download: "Tải về",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "TRẢI NGHIỆM MÁY CHỦ RIÊNG TƯ ĐỈNH CAO",
+                hero_desc: "Khám phá thế giới phiêu lưu mới, tham gia các cuộc chiến bang hội hoành tráng và chinh phục kẻ thù của bạn trong Máy chủ riêng AEGIS.",
+                btn_register: "Đăng ký tài khoản",
+                btn_download: "Tải game",
+                reg_title: "TÀI KHOẢN",
+                reg_subtitle: "Hệ thống đăng ký tạm thời đóng cửa.",
+                coming_soon: "SẮP RA MẮT",
+                reg_desc: "Liên kết đăng ký và máy chủ chính thức hiện đang được chuẩn bị. Vui lòng theo dõi kênh Discord của chúng tôi để biết các thông báo.",
+                btn_discord_updates: "Tham gia Discord để cập nhật",
+                dl_title: "CLIENT",
+                dl_subtitle: "Tải xuống client và launcher chính thức của AEGIS để bắt đầu chơi.",
+                pc_desc: "Tải xuống trực tiếp cho client trò chơi hoàn chỉnh.",
+                apk_desc: "Dành cho các bản cập nhật và cài đặt hiện có.",
+                game_download: "TẢI GAME",
+                comm_hub: "Trung tâm cộng đồng",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Kết nối với những người chơi khác, nhận thông tin cập nhật mới nhất và nhận hỗ trợ từ cộng đồng của chúng tôi.",
+                btn_join_discord: "Tham gia Discord",
+                footer_tagline: "Chơi. Chinh phục. Thống trị.",
+                copyright: "© 2026 LEGEND AEGIS. Bảo lưu mọi quyền."
+};

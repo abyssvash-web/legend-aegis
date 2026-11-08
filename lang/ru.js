@@ -1,0 +1,28 @@
+window.AEGIS_I18N = window.AEGIS_I18N || {};
+window.AEGIS_I18N.ru = {
+                nav_home: "Главная",
+                nav_register: "Регистрация",
+                nav_download: "Скачать",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "ЛУЧШИЙ ОПЫТ ПРИВАТНОГО СЕРВЕРА",
+                hero_desc: "Откройте для себя новый мир приключений, участвуйте в эпических войнах гильдий и побеждайте врагов на сервере AEGIS.",
+                btn_register: "Создать аккаунт",
+                btn_download: "Скачать игру",
+                reg_title: "АККАУНТ",
+                reg_subtitle: "Система регистрации временно закрыта.",
+                coming_soon: "СКОРО",
+                reg_desc: "Ссылка на регистрацию и официальный сервер в настоящее время готовятся. Следите за анонсами в нашем канале Discord.",
+                btn_discord_updates: "Вступить в Discord для обновлений",
+                dl_title: "КЛИЕНТ",
+                dl_subtitle: "Загрузите официальный клиент и лаунчер AEGIS, чтобы начать игру.",
+                pc_desc: "Прямая загрузка полного игрового клиента.",
+                apk_desc: "Для обновлений и существующих установок.",
+                game_download: "СКАЧАТЬ ИГРУ",
+                comm_hub: "Сообщество",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Общайтесь с другими игроками, получайте последние обновления и поддержку от нашего сообщества.",
+                btn_join_discord: "Присоединиться к Discord",
+                footer_tagline: "Играй. Покоряй. Властвуй.",
+                copyright: "© 2026 LEGEND AEGIS. Все права защищены."
+};
