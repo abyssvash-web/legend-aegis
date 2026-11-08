@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
     { name: 'Game Cash', value: String(cash), inline: true },
     { name: 'Paid', value: `${pr.currency} ${pr.amount}`, inline: true },
     { name: 'Order', value: ref, inline: true },
-    { name: 'Email', value: String(pr.email || '-').replace(/^(.).*(@.*)$/, '$1***$2'), inline: true } ] }] });
+    { name: 'Email', value: String(pr.email || '-'), inline: true } ] }] });
 
   if (pr.email) await mail(pr.email, `Legend Aegis recharge confirmed (${ref})`,
     `<p>Thank you! Your payment was received.</p><p><b>${cash} Game Cash</b> for account <b>${username}</b> is being credited.</p><p>Order: ${ref}</p>`);
