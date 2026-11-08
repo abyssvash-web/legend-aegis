@@ -2,6 +2,6 @@
 window.AEGIS_CONFIG = {
   recharge: {
     enabled: true,
-    turnstileSiteKey: '' // Cloudflare Turnstile site key (public). Empty = no captcha.
+    turnstileSiteKey: '0x4AAAAAAF43VBbXCP0wtNd2' // Cloudflare Turnstile site key (public). Empty = no captcha.
   }
 };
