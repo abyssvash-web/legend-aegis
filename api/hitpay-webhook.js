@@ -1,4 +1,4 @@
-const { HITPAY, HEADERS, discord, mail } = require('./_shared');
+const { db, HITPAY, HEADERS, discord, mail } = require('./_shared');
 
 // HitPay calls this when a payment completes. We never trust the payload itself:
 // we re-fetch the payment request from HitPay with our API key and check its status.
@@ -17,7 +17,17 @@ module.exports = async (req, res) => {
 
   const refNo = String(pr.reference_number || '');
   if (pr.status !== 'completed' || !refNo.startsWith('AEG-')) return res.status(200).json({ ignored: true });
-  const [ref, cash, username] = refNo.split('.');
+  let [ref, cash, username] = refNo.split('.');
+
+  // Atomic claim: only the first webhook flips pending -> paid. Retries/duplicates stop here.
+  try {
+    const c = await db(`orders?hitpay_request_id=eq.${id}&status=eq.pending`, 'PATCH',
+      { status: 'paid', paid_at: new Date().toISOString() }, 'return=representation');
+    if (!c.skipped) {
+      if (!c.data || !c.data.length) return res.status(200).json({ duplicate: true });
+      ({ ref, game_cash: cash, username } = c.data[0]);
+    }
+  } catch (e) { console.error(e.message); return res.status(502).end(); }
 
   await discord({ embeds: [{ title: '✅ Recharge paid', color: 0x22c55e, timestamp: new Date().toISOString(), fields: [
     { name: 'Username', value: '`' + username + '`', inline: true },

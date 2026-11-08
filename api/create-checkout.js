@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { PACKAGES, HITPAY, HEADERS, getRate } = require('./_shared');
+const { db, PACKAGES, HITPAY, HEADERS, getRate } = require('./_shared');
 const fail = (res, code, error) => res.status(code).json({ error });
 
 module.exports = async (req, res) => {
@@ -31,6 +31,10 @@ module.exports = async (req, res) => {
       purpose: `${pkg.cash} Game Cash for ${username}`, redirect_url: `${site}/?recharge=done#recharge` }) });
     const j = await r.json();
     if (!r.ok || typeof j.url !== 'string') { console.error('hitpay error', r.status); return fail(res, 502, 'gateway'); }
+    try {
+      await db('orders', 'POST', { ref: ref.split('.')[0], username, email, package_id: b.packageId, game_cash: pkg.cash,
+        usdt: pkg.usdt, php_amount: amount, usd_php_rate: rate, hitpay_request_id: j.id }, 'return=minimal');
+    } catch (e) { console.error(e.message); return fail(res, 500, 'order'); }
     return res.status(200).json({ url: j.url });
   } catch (e) { return fail(res, 502, 'gateway'); }
 };

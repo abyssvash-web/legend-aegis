@@ -31,4 +31,14 @@ async function mail(to, subject, html) {
       body: JSON.stringify({ from: process.env.MAIL_FROM, to, subject, html }) });
   } catch (e) { console.error('mail failed'); }
 }
-module.exports = { PACKAGES, HITPAY, HEADERS, getRate, discord, mail };
+// Minimal Supabase REST client (server-side only). Returns { skipped: true } if not configured.
+async function db(path, method, body, prefer) {
+  const url = process.env.SUPABASE_URL, key = process.env.SUPABASE_SECRET_KEY;
+  if (!url || !key) return { skipped: true };
+  const r = await fetch(`${url}/rest/v1/${path}`, { method: method || 'GET',
+    headers: { apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json', ...(prefer ? { Prefer: prefer } : {}) },
+    body: body ? JSON.stringify(body) : undefined });
+  if (!r.ok) throw new Error('supabase ' + r.status);
+  return { data: await r.json().catch(() => null) };
+}
+module.exports = { db, PACKAGES, HITPAY, HEADERS, getRate, discord, mail };
