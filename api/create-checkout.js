@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const { db, PACKAGES, HITPAY, HEADERS, getRate } = require('./_shared');
-const fail = (res, code, error) => res.status(code).json({ error });
+// Set DEBUG_ERRORS=1 in Vercel to see technical details in the browser while testing. Remove it when live.
+const fail = (res, code, error, detail) => res.status(code).json(detail && process.env.DEBUG_ERRORS === '1' ? { error, detail: String(detail).slice(0, 300) } : { error });
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return fail(res, 405, 'method');
@@ -30,11 +31,11 @@ module.exports = async (req, res) => {
       amount, currency: 'PHP', email, send_email: true, reference_number: ref,
       purpose: `${pkg.cash} Game Cash for ${username}`, redirect_url: `${site}/?recharge=done#recharge` }) });
     const j = await r.json();
-    if (!r.ok || typeof j.url !== 'string') { console.error('hitpay error', r.status); return fail(res, 502, 'gateway'); }
+    if (!r.ok || typeof j.url !== 'string') { console.error('hitpay error', r.status, JSON.stringify(j).slice(0, 300)); return fail(res, 502, 'gateway', `hitpay ${r.status} ${JSON.stringify(j)}`); }
     try {
       await db('orders', 'POST', { ref: ref.split('.')[0], username, email, package_id: b.packageId, game_cash: pkg.cash,
         usdt: pkg.usdt, php_amount: amount, usd_php_rate: rate, hitpay_request_id: j.id }, 'return=minimal');
-    } catch (e) { console.error(e.message); return fail(res, 500, 'order'); }
+    } catch (e) { console.error(e.message); return fail(res, 500, 'order', e.message); }
     return res.status(200).json({ url: j.url });
-  } catch (e) { return fail(res, 502, 'gateway'); }
+  } catch (e) { return fail(res, 502, 'gateway', 'hitpay request failed: ' + e.message); }
 };

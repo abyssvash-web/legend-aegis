@@ -56,6 +56,7 @@
       const j = await r.json();
       if (r.ok && typeof j.url === 'string' && j.url.startsWith('https://')) { location.href = j.url; return; }
       showError('rc_err_net');
+      if (j.detail) $('rc-error').textContent += ' [' + j.detail + ']';
     } catch (e) { showError('rc_err_net'); }
     btn.disabled = false;
     if (window.turnstile) { turnstile.reset(); token = ''; }

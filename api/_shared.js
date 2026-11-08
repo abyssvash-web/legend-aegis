@@ -38,7 +38,7 @@ async function db(path, method, body, prefer) {
   const r = await fetch(`${url}/rest/v1/${path}`, { method: method || 'GET',
     headers: { apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json', ...(prefer ? { Prefer: prefer } : {}) },
     body: body ? JSON.stringify(body) : undefined });
-  if (!r.ok) throw new Error('supabase ' + r.status);
+  if (!r.ok) throw new Error('supabase ' + r.status + ' ' + (await r.text().catch(() => '')).slice(0, 200));
   return { data: await r.json().catch(() => null) };
 }
 module.exports = { db, PACKAGES, HITPAY, HEADERS, getRate, discord, mail };
