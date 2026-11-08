@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
   try {
     const r = await fetch(HITPAY() + '/v1/payment-requests', { method: 'POST', headers: HEADERS(), body: JSON.stringify({
       amount, currency: process.env.HITPAY_CURRENCY || 'PHP', email, send_email: true, reference_number: ref,
-      purpose: `${pkg.cash} Game Cash for ${username}`, redirect_url: `${site}/?recharge=done#recharge` }) });
+      purpose: `${pkg.cash} Game Cash for ${username}`, redirect_url: `${site}/?recharge=done` }) });
     const j = await r.json();
     if (!r.ok || typeof j.url !== 'string') { console.error('hitpay error', r.status, JSON.stringify(j).slice(0, 300)); return fail(res, 502, 'gateway', `hitpay ${r.status} ${JSON.stringify(j)}`); }
     try {

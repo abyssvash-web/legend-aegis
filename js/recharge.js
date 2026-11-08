@@ -5,8 +5,17 @@
   if (!C || !form) return;
   if (!C.enabled) { form.classList.add('hidden'); $('rc-closed').classList.remove('hidden'); return; }
 
+  // Back from HitPay: show a message. HitPay adds ?reference=...&status=... to our redirect URL.
   const banner = $('rc-banner');
-  if (new URLSearchParams(location.search).get('recharge') === 'done') { banner.textContent = t('rc_done_msg'); banner.classList.remove('hidden'); }
+  const q = new URLSearchParams(location.search), st = q.get('status') || '';
+  if (/recharge=done/.test(location.href) || q.has('reference') || st) {
+    const bad = /^(failed|canceled|cancelled)$/i.test(st);
+    banner.textContent = t(bad ? 'rc_fail_msg' : 'rc_done_msg');
+    banner.classList.toggle('text-red-300', bad); banner.classList.toggle('bg-red-500/10', bad); banner.classList.toggle('border-red-500/40', bad);
+    banner.classList.remove('hidden');
+    $('recharge').scrollIntoView();
+    try { history.replaceState(null, '', location.pathname + '#recharge'); } catch (e) {}
+  }
 
   let data = null, token = '';
   const php = n => '₱' + n.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
