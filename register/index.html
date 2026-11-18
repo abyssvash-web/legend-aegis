@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | LEGEND AEGIS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            gold: '#F59E0B',
+                            amber: '#D97706',
+                            dark: '#0B0B0E',
+                            card: '#141419',
+                            cardHover: '#1A1A22',
+                            glow: '#FBBF24',
+                        }
+                    },
+                    boxShadow: {
+                        'neon-gold': '0 0 20px rgba(245, 158, 11, 0.4), 0 0 40px rgba(245, 158, 11, 0.1)',
+                        'neon-hover': '0 0 30px rgba(251, 191, 36, 0.7), 0 0 60px rgba(245, 158, 11, 0.3)',
+                        'card-glow': '0 10px 30px -10px rgba(245, 158, 11, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B0B0E;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .bg-aegis {
+            background-image: linear-gradient(to bottom, rgba(11, 11, 14, 0.8), rgba(11, 11, 14, 0.95)), url('/legendaegisbg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+        }
+
+        .logo-glow {
+            filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.5));
+            transition: filter 0.3s ease;
+        }
+
+        .logo-glow:hover {
+            filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.8));
+        }
+
+        .nav-glass {
+            background: rgba(11, 11, 14, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        select option {
+            background-color: #141419;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="bg-aegis min-h-screen flex flex-col justify-between selection:bg-brand-gold selection:text-black">
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 nav-glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <img src="/logo.png" alt="legendaegis Logo" class="h-12 w-auto object-contain logo-glow rounded">
+                <span class="font-heading font-black text-xl tracking-wider text-white group-hover:text-brand-gold transition-colors">
+                    LEGEND <span class="text-brand-gold">AEGIS</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-6 font-heading text-sm uppercase tracking-wider">
+                <a href="/" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_home">Home</a>
+                <a href="/register" class="text-brand-gold transition-colors py-2 border-b-2 border-brand-gold" data-i18n="nav_register">Register</a>
+                <a href="/#download" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_download">Download</a>
+                <a href="/#discord" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_discord">Discord</a>
+
+                <!-- Language Dropdown -->
+                <div class="relative group">
+                    <button id="lang-menu-btn" class="flex items-center gap-1.5 text-gray-300 hover:text-brand-gold transition-colors py-2 px-3 border border-brand-gold/30 rounded-lg bg-brand-dark/50">
+                        <span id="current-lang">EN</span>
+                        <i class="fa-solid fa-caret-down text-xs"></i>
+                    </button>
+                    <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-44 bg-brand-card border border-brand-gold/30 rounded-xl shadow-2xl py-2 z-50 flex flex-col font-sans text-sm">
+                        <a href="#" onclick="setLanguage('en'); return false;" class="px-4 py-2 text-brand-gold hover:bg-brand-cardHover font-bold transition-colors">English</a>
+                        <a href="#" onclick="setLanguage('pt'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Português</a>
+                        <a href="#" onclick="setLanguage('zh'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">简体中文</a>
+                        <a href="#" onclick="setLanguage('ph'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Filipino</a>
+                        <a href="#" onclick="setLanguage('id'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Bahasa Indonesia</a>
+                        <a href="#" onclick="setLanguage('th'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">ไทย</a>
+                        <a href="#" onclick="setLanguage('vi'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Tiếng Việt</a>
+                        <a href="#" onclick="setLanguage('ru'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">Русский</a>
+                        <a href="#" onclick="setLanguage('ko'); return false;" class="px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-cardHover transition-colors">한국어</a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Discord Quick Join CTA -->
+            <div class="hidden sm:block">
+                <a href="https://discord.gg/WBAmVQtfAa" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 bg-brand-gold hover:bg-amber-600 text-black font-heading text-xs uppercase font-bold px-5 py-2.5 rounded-lg shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-0.5">
+                    <i class="fa-brands font-bold text-base fa-discord"></i>
+                    <span data-i18n="btn_discord">Discord</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-2">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-b border-brand-gold/30 px-4 pt-2 pb-6 space-y-3 font-heading uppercase text-sm">
+            <a href="/" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_home">Home</a>
+            <a href="/register" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_register">Register</a>
+            <a href="/#download" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_download">Download</a>
+            <a href="/#discord" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_discord">Discord</a>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-20">
+        <!-- Register Section -->
+        <section id="register" class="py-20 px-4 sm:px-6 lg:px-8 max-w-xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="font-heading font-black text-3xl sm:text-4xl uppercase tracking-wider mb-3">
+                    CREATE <span class="text-brand-gold text-glow" data-i18n="reg_title">ACCOUNT</span>
+                </h2>
+                <p class="text-gray-400 text-sm sm:text-base" data-i18n="reg_subtitle">
+                    Register your official Legend Aegis game account below.
+                </p>
+                <div class="w-24 h-1 bg-brand-gold mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Registration Card -->
+            <div class="bg-brand-card border border-brand-gold/40 rounded-2xl shadow-neon-gold p-6 sm:p-8">
+                <!-- Alert Message Box -->
+                <div id="reg-alert" class="hidden mb-6 p-4 rounded-xl text-sm font-medium flex items-start gap-3">
+                    <i id="reg-alert-icon" class="fa-solid mt-0.5 text-base"></i>
+                    <span id="reg-alert-text"></span>
+                </div>
+
+                <form id="aegis-register-form" class="space-y-5" novalidate>
+                    <!-- Account -->
+                    <div>
+                        <label for="account" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
+                            <span data-i18n="lbl_account">Account</span> <span class="text-brand-gold">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input type="text" id="account" name="account" maxlength="10" required
+                                placeholder="6-10 letters or numbers"
+                                class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors">
+                        </div>
+                        <p class="text-[11px] text-gray-500 mt-1" data-i18n="hint_account">6-10 alphanumeric characters (letters or numbers only).</p>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="password" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
+                                <span data-i18n="lbl_password">Password</span> <span class="text-brand-gold">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
+                                    <i class="fa-solid fa-lock"></i>
+                                </span>
+                                <input type="password" id="password" name="password" maxlength="14" required
+                                    placeholder="6-14 characters"
+                                    class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors">
+                                <button type="button" onclick="togglePassword('password', this)" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-brand-gold">
+                                    <i class="fa-solid fa-eye text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="password2" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
+                                <span data-i18n="lbl_password2">Re-enter Password</span> <span class="text-brand-gold">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </span>
+                                <input type="password" id="password2" name="password2" maxlength="14" required
+                                    placeholder="Confirm password"
+                                    class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors">
+                                <button type="button" onclick="togglePassword('password2', this)" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-brand-gold">
+                                    <i class="fa-solid fa-eye text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Question -->
+                    <div>
+                        <label for="question" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
+                            <span data-i18n="lbl_question">Security Question</span> <span class="text-brand-gold">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500 pointer-events-none">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </span>
+                            <select id="question" name="question" required
+                                class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-10 py-3 text-sm text-white outline-none appearance-none transition-colors">
+                                <option value="" disabled selected>Select a security question</option>
+                                <option value="Father's name">Father's name</option>
+                                <option value="Mother's name">Mother's name</option>
+                                <option value="Name of favorite person">Name of favorite person</option>
+                                <option value="The first online game">The first online game</option>
+                            </select>
+                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 pointer-events-none">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Security Answer -->
+                    <div>
+                        <label for="answer" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
+                            <span data-i18n="lbl_answer">Security Answer</span> <span class="text-brand-gold">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            <input type="text" id="answer" name="answer" required
+                                placeholder="Enter your security answer"
+                                class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors">
+                        </div>
+                    </div>
+
+                    <!-- Email with Domain Dropdown -->
+                    <div>
+                        <label for="email-prefix" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
+                            <span data-i18n="lbl_email">Email Address</span> <span class="text-brand-gold">*</span>
+                        </label>
+                        <div class="flex rounded-xl overflow-hidden border border-gray-700 focus-within:border-brand-gold focus-within:ring-1 focus-within:ring-brand-gold bg-brand-dark transition-colors">
+                            <div class="relative flex-grow">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </span>
+                                <input type="text" id="email-prefix" name="emailPrefix" required
+                                    placeholder="yourname"
+                                    class="w-full bg-transparent pl-10 pr-3 py-3 text-sm text-white placeholder-gray-500 outline-none">
+                            </div>
+                            <div class="relative border-l border-gray-700 bg-brand-cardHover">
+                                <select id="email-domain" name="emailDomain" aria-label="Email domain"
+                                    class="h-full bg-transparent pl-3 pr-8 py-3 text-sm font-semibold text-brand-gold outline-none appearance-none cursor-pointer">
+                                    <option value="@gmail.com">@gmail.com</option>
+                                    <option value="@outlook.com">@outlook.com</option>
+                                    <option value="@qq.com">@qq.com</option>
+                                </select>
+                                <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-brand-gold pointer-events-none">
+                                    <i class="fa-solid fa-caret-down text-xs"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email Verification Code -->
+                    <div>
+                        <label for="ecode" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
+                            <span data-i18n="lbl_ecode">Email Verification Code</span> <span class="text-brand-gold">*</span>
+                        </label>
+                        <div class="flex gap-2.5">
+                            <div class="relative flex-grow">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
+                                    <i class="fa-solid fa-hashtag"></i>
+                                </span>
+                                <input type="text" id="ecode" name="ecode" required
+                                    placeholder="Enter email code"
+                                    class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 outline-none uppercase transition-colors">
+                            </div>
+                            <button type="button" id="send-code-btn"
+                                class="shrink-0 bg-brand-gold/15 hover:bg-brand-gold text-brand-gold hover:text-black border border-brand-gold/50 font-heading font-bold text-xs uppercase px-4 py-3 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span id="send-code-text" data-i18n="btn_send_code">Send Code</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cloudflare Turnstile Captcha -->
+                    <!-- Turnstile site key ng aegismir.com (naka-whitelist na ang domain natin sa kanila) -->
+                    <div class="flex justify-center">
+                        <div class="cf-turnstile" data-sitekey="0x4AAAAAABppbUt4zwA5Kgds" data-theme="dark"></div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-2">
+                        <button type="submit" id="submit-reg-btn"
+                            class="w-full inline-flex items-center justify-center gap-2 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-6 py-4 rounded-xl shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-user-check text-base"></i>
+                            <span id="submit-reg-text" data-i18n="btn_submit_reg">Register Account</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-brand-dark/90 border-t border-gray-800/80 py-10 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+            <div class="flex items-center gap-3">
+                <img src="/logo.png" alt="AEGIS Logo Small" class="h-10 w-auto rounded logo-glow">
+                <div>
+                    <span class="font-heading font-bold text-lg text-white tracking-wider block">LEGEND AEGIS</span>
+                    <span class="text-xs text-gray-500" data-i18n="footer_tagline">Play. Conquer. Dominate.</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-500" data-i18n="copyright">
+                &copy; 2026 LEGEND AEGIS. All rights reserved.
+            </p>
+
+            <div class="flex items-center space-x-5 text-gray-400">
+                <a href="https://discord.gg/WBAmVQtfAa" target="_blank" class="hover:text-brand-gold transition-colors text-lg"><i class="fa-brands fa-discord"></i></a>
+                <a href="#" class="hover:text-brand-gold transition-colors text-lg"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts Section -->
+    <script>
+        // Current language + translation lookup (keeps JS-set button text in the chosen language)
+        let currentLang = 'en';
+        function tr(key, fallback) {
+            return (typeof translations !== 'undefined' && translations[currentLang] && translations[currentLang][key]) || fallback;
+        }
+
+        // Toggle password visibility
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (!input || !icon) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Alert helper
+        function showRegAlert(type, message) {
+            const box = document.getElementById('reg-alert');
+            const icon = document.getElementById('reg-alert-icon');
+            const text = document.getElementById('reg-alert-text');
+            if (!box || !icon || !text) return;
+
+            box.className = 'mb-6 p-4 rounded-xl text-sm font-medium flex items-start gap-3 border';
+            icon.className = 'fa-solid mt-0.5 text-base';
+
+            if (type === 'success') {
+                box.classList.add('bg-emerald-950/70', 'border-emerald-500/50', 'text-emerald-300');
+                icon.classList.add('fa-circle-check', 'text-emerald-400');
+            } else {
+                box.classList.add('bg-red-950/70', 'border-red-500/50', 'text-red-300');
+                icon.classList.add('fa-circle-exclamation', 'text-red-400');
+            }
+
+            text.textContent = message;
+            box.classList.remove('hidden');
+        }
+
+        function hideRegAlert() {
+            const box = document.getElementById('reg-alert');
+            if (box) box.classList.add('hidden');
+        }
+
+        // Build full email from prefix + dropdown domain
+        function getFullEmail() {
+            const prefixInput = document.getElementById('email-prefix');
+            const domainSelect = document.getElementById('email-domain');
+            let prefix = (prefixInput ? prefixInput.value : '').trim();
+            const domain = domainSelect ? domainSelect.value : '@gmail.com';
+
+            if (!prefix) return '';
+            // If user accidentally typed "@gmail.com" inside the prefix box, strip it
+            if (prefix.includes('@')) {
+                prefix = prefix.split('@')[0].trim();
+            }
+            if (!prefix) return '';
+            return `${prefix}${domain}`;
+        }
+
+        // Send Verification Code Handler
+        const sendCodeBtn = document.getElementById('send-code-btn');
+        const sendCodeText = document.getElementById('send-code-text');
+        let cooldownTimer = null;
+
+        function startSendCodeCooldown(seconds = 60) {
+            if (!sendCodeBtn || !sendCodeText) return;
+            sendCodeBtn.disabled = true;
+            let remaining = seconds;
+            sendCodeText.textContent = `${remaining}s`;
+
+            clearInterval(cooldownTimer);
+            cooldownTimer = setInterval(() => {
+                remaining -= 1;
+                if (remaining <= 0) {
+                    clearInterval(cooldownTimer);
+                    sendCodeBtn.disabled = false;
+                    sendCodeText.textContent = tr('btn_send_code', 'Send Code');
+                } else {
+                    sendCodeText.textContent = `${remaining}s`;
+                }
+            }, 1000);
+        }
+
+        // Aegis session cookie returned by send_code, sent back on register
+        let aegisSess = '';
+
+        if (sendCodeBtn) {
+            sendCodeBtn.addEventListener('click', async () => {
+                hideRegAlert();
+                const email = getFullEmail();
+
+                if (!email) {
+                    showRegAlert('error', 'Please enter your email username first.');
+                    document.getElementById('email-prefix')?.focus();
+                    return;
+                }
+
+                sendCodeBtn.disabled = true;
+                sendCodeText.textContent = 'Sending...';
+
+                try {
+                    const response = await fetch('/api/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            game: 'AEGIS',
+                            action: 'send_code',
+                            email
+                        })
+                    });
+
+                    const data = await response.json().catch(() => ({}));
+
+                    if (response.ok && data.ok) {
+                        aegisSess = data.sess || '';
+                        showRegAlert('success', 'Code sent. Please check your inbox');
+                        startSendCodeCooldown(60);
+                    } else {
+                        showRegAlert('error', data.message || 'Failed to send verification code.');
+                        sendCodeBtn.disabled = false;
+                        sendCodeText.textContent = tr('btn_send_code', 'Send Code');
+                    }
+                } catch (err) {
+                    showRegAlert('error', 'Network error while sending verification code.');
+                    sendCodeBtn.disabled = false;
+                    sendCodeText.textContent = tr('btn_send_code', 'Send Code');
+                }
+            });
+        }
+
+        // Form Submit Handler
+        const regForm = document.getElementById('aegis-register-form');
+        const submitRegBtn = document.getElementById('submit-reg-btn');
+        const submitRegText = document.getElementById('submit-reg-text');
+
+        if (regForm) {
+            regForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                hideRegAlert();
+
+                const account = document.getElementById('account').value.trim();
+                const password = document.getElementById('password').value;
+                const password2 = document.getElementById('password2').value;
+                const question = document.getElementById('question').value;
+                const answer = document.getElementById('answer').value.trim();
+                const email = getFullEmail();
+                const ecode = document.getElementById('ecode').value.trim();
+
+                if (!/^[A-Za-z0-9]{6,10}$/.test(account)) {
+                    showRegAlert('error', 'Account must be 6-10 letters or numbers.');
+                    return;
+                }
+                if (password.length < 6 || password.length > 14) {
+                    showRegAlert('error', 'Password must be 6-14 characters.');
+                    return;
+                }
+                if (password !== password2) {
+                    showRegAlert('error', 'Passwords do not match.');
+                    return;
+                }
+                if (!question) {
+                    showRegAlert('error', 'Please select a security question.');
+                    return;
+                }
+                if (!answer) {
+                    showRegAlert('error', 'Please enter your security answer.');
+                    return;
+                }
+                if (!email) {
+                    showRegAlert('error', 'Please enter your email address.');
+                    return;
+                }
+                if (!ecode) {
+                    showRegAlert('error', 'Please enter the email verification code.');
+                    return;
+                }
+
+                const tsInput = regForm.querySelector('[name="cf-turnstile-response"]');
+                const turnstileToken = tsInput ? tsInput.value : '';
+                if (!turnstileToken) {
+                    showRegAlert('error', 'Please complete the captcha verification.');
+                    return;
+                }
+
+                submitRegBtn.disabled = true;
+                submitRegText.textContent = 'Registering...';
+
+                try {
+                    const response = await fetch('/api/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            game: 'AEGIS',
+                            action: 'register',
+                            account,
+                            password,
+                            password2,
+                            question,
+                            answer,
+                            email,
+                            ecode,
+                            sess: aegisSess,
+                            turnstileToken,
+                            d: '36'
+                        })
+                    });
+
+                    const data = await response.json().catch(() => ({}));
+
+                    if (response.ok && data.ok) {
+                        showRegAlert('success', 'Account registered successfully! You can now log in to Legend Aegis.');
+                        regForm.reset();
+                    } else {
+                        showRegAlert('error', data.message || 'Registration failed. Please check your details and try again.');
+                    }
+                } catch (err) {
+                    showRegAlert('error', 'Network error while submitting registration.');
+                } finally {
+                    if (window.turnstile) window.turnstile.reset();
+                    submitRegBtn.disabled = false;
+                    submitRegText.textContent = tr('btn_submit_reg', 'Register Account');
+                }
+            });
+        }
+
+        // Dictionary para sa iba't ibang wika
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_register: "Register",
+                nav_download: "Download",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "THE ULTIMATE PRIVATE SERVER EXPERIENCE",
+                hero_desc: "Discover a new world of adventure, engage in epic guild wars, and conquer your enemies in the AEGIS Private Server.",
+                btn_register: "Register Account",
+                btn_download: "Download Game",
+                reg_title: "ACCOUNT",
+                reg_subtitle: "Register your official Legend Aegis game account below.",
+                lbl_account: "Account",
+                hint_account: "6-10 alphanumeric characters (letters or numbers only).",
+                lbl_password: "Password",
+                lbl_password2: "Re-enter Password",
+                lbl_question: "Security Question",
+                lbl_answer: "Security Answer",
+                lbl_email: "Email Address",
+                lbl_ecode: "Email Verification Code",
+                btn_send_code: "Send Code",
+                btn_submit_reg: "Register Account",
+                dl_title: "CLIENT",
+                dl_subtitle: "Download the official AEGIS client and launcher to start playing.",
+                pc_desc: "Direct download for the complete game client.",
+                apk_desc: "For updates and existing installations.",
+                game_download: "GAME DOWNLOAD",
+                comm_hub: "Community Hub",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Connect with fellow players, get the latest updates, and get support from our community.",
+                btn_join_discord: "Join Discord",
+                footer_tagline: "Play. Conquer. Dominate.",
+                copyright: "© 2026 LEGEND AEGIS. All rights reserved."
+            },
+            pt: {
+                nav_home: "Início",
+                nav_register: "Registrar",
+                nav_download: "Baixar",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "A EXPERIÊNCIA DEFINITIVA DE SERVIDOR PRIVADO",
+                hero_desc: "Descubra um novo mundo de aventura, participe de guerras de guildas épicas e conquiste seus inimigos no Servidor Privado AEGIS.",
+                btn_register: "Criar Conta",
+                btn_download: "Baixar Jogo",
+                reg_title: "CONTA",
+                reg_subtitle: "Registre sua conta oficial do Legend Aegis abaixo.",
+                lbl_account: "Conta",
+                hint_account: "6-10 caracteres alfanuméricos (apenas letras ou números).",
+                lbl_password: "Senha",
+                lbl_password2: "Confirmar Senha",
+                lbl_question: "Pergunta de Segurança",
+                lbl_answer: "Resposta de Segurança",
+                lbl_email: "Endereço de E-mail",
+                lbl_ecode: "Código de Verificação",
+                btn_send_code: "Enviar Código",
+                btn_submit_reg: "Registrar Conta",
+                dl_title: "CLIENTE",
+                dl_subtitle: "Baixe o cliente oficial do AEGIS e o launcher para começar a jogar.",
+                pc_desc: "Download direto para o cliente completo do jogo.",
+                apk_desc: "Para atualizações e instalações existentes.",
+                game_download: "BAIXAR JOGO",
+                comm_hub: "Centro Comunitário",
+                discord_title: "DISCORD DO AEGIS",
+                discord_desc: "Conecte-se com outros jogadores, obtenha as últimas atualizações e suporte da nossa comunidade.",
+                btn_join_discord: "Entrar no Discord",
+                footer_tagline: "Jogue. Conquiste. Domine.",
+                copyright: "© 2026 LEGEND AEGIS. Todos os direitos reservados."
+            },
+            zh: {
+                nav_home: "首页",
+                nav_register: "注册",
+                nav_download: "下载",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "终极私服体验",
+                hero_desc: "在AEGIS私服中探索全新的冒险世界，参与史诗级的公会战，战胜你的敌人。",
+                btn_register: "注册账号",
+                btn_download: "下载游戏",
+                reg_title: "账号",
+                reg_subtitle: "在下方注册您的 Legend Aegis 官方游戏账号。",
+                lbl_account: "账号",
+                hint_account: "6-10位字母或数字。",
+                lbl_password: "密码",
+                lbl_password2: "确认密码",
+                lbl_question: "密保问题",
+                lbl_answer: "密保答案",
+                lbl_email: "电子邮箱",
+                lbl_ecode: "邮箱验证码",
+                btn_send_code: "发送验证码",
+                btn_submit_reg: "立即注册",
+                dl_title: "客户端",
+                dl_subtitle: "下载官方AEGIS客户端和启动器以开始游戏。",
+                pc_desc: "完整游戏客户端直接下载。",
+                apk_desc: "用于更新和现有安装。",
+                game_download: "游戏下载",
+                comm_hub: "社区中心",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "与其他玩家交流，获取最新动态并获得社区支持。",
+                btn_join_discord: "加入Discord",
+                footer_tagline: "畅玩。征服。统治。",
+                copyright: "© 2026 LEGEND AEGIS. 保留所有权利。"
+            },
+            ph: {
+                nav_home: "Tahanan",
+                nav_register: "Magrehistro",
+                nav_download: "I-download",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "ANG PINAKAMAHUSAY NA PRIVATE SERVER",
+                hero_desc: "Tumuklas ng bagong mundo ng pakikipagsapalaran, sumali sa mga digmaan ng guild, at talunin ang mga kalaban sa AEGIS Private Server.",
+                btn_register: "Gumawa ng Account",
+                btn_download: "I-download ang Laro",
+                reg_title: "ACCOUNT",
+                reg_subtitle: "Irehistro ang iyong opisyal na Legend Aegis account sa ibaba.",
+                lbl_account: "Account",
+                hint_account: "6-10 na letra o numero lamang.",
+                lbl_password: "Password",
+                lbl_password2: "Ulitin ang Password",
+                lbl_question: "Security Question",
+                lbl_answer: "Security Answer",
+                lbl_email: "Email Address",
+                lbl_ecode: "Email Code",
+                btn_send_code: "Send Code",
+                btn_submit_reg: "Magrehistro",
+                dl_title: "CLIENT",
+                dl_subtitle: "I-download ang opisyal na AEGIS client at launcher upang magsimulang maglaro.",
+                pc_desc: "Direktang pag-download para sa kumpletong client ng laro.",
+                apk_desc: "Para sa mga update at umiiral na pag-install.",
+                game_download: "I-DOWNLOAD ANG LARO",
+                comm_hub: "Community Hub",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Makipag-ugnayan sa kapwa manlalaro, alamin ang mga huling update, at humingi ng tulong sa komunidad.",
+                btn_join_discord: "Sumali sa Discord",
+                footer_tagline: "Maglaro. Lupigin. Mangibabaw.",
+                copyright: "© 2026 LEGEND AEGIS. All rights reserved."
+            },
+            id: {
+                nav_home: "Beranda",
+                nav_register: "Daftar",
+                nav_download: "Unduh",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "PENGALAMAN SERVER PRIBADI TERBAIK",
+                hero_desc: "Temukan dunia petualangan baru, ikuti perang guild yang epik, dan taklukkan musuh Anda di Server Pribadi AEGIS.",
+                btn_register: "Daftar Akun",
+                btn_download: "Unduh Game",
+                reg_title: "AKUN",
+                reg_subtitle: "Daftarkan akun resmi Legend Aegis Anda di bawah ini.",
+                lbl_account: "Akun",
+                hint_account: "6-10 karakter alfanumerik (huruf atau angka).",
+                lbl_password: "Kata Sandi",
+                lbl_password2: "Ulangi Kata Sandi",
+                lbl_question: "Pertanyaan Keamanan",
+                lbl_answer: "Jawaban Keamanan",
+                lbl_email: "Alamat Email",
+                lbl_ecode: "Kode Verifikasi Email",
+                btn_send_code: "Kirim Kode",
+                btn_submit_reg: "Daftar Akun",
+                dl_title: "KLIEN",
+                dl_subtitle: "Unduh klien resmi AEGIS dan peluncur untuk mulai bermain.",
+                pc_desc: "Unduh langsung untuk klien game lengkap.",
+                apk_desc: "Untuk pembaruan dan instalasi yang ada.",
+                game_download: "UNDUH GAME",
+                comm_hub: "Pusat Komunitas",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Terhubung dengan pemain lain, dapatkan pembaruan terkini, dan dapatkan dukungan dari komunitas kami.",
+                btn_join_discord: "Gabung Discord",
+                footer_tagline: "Bermain. Taklukan. Dominasi.",
+                copyright: "© 2026 LEGEND AEGIS. Hak cipta dilindungi."
+            },
+            th: {
+                nav_home: "หน้าแรก",
+                nav_register: "สมัครสมาชิก",
+                nav_download: "ดาวน์โหลด",
+                nav_discord: "ดิสคอร์ด",
+                btn_discord: "Discord",
+                hero_subtitle: "ประสบการณ์เซิร์ฟเวอร์ส่วนตัวที่ดีที่สุด",
+                hero_desc: "ค้นพบโลกแห่งการผจญภัยครั้งใหม่ เข้าร่วมสงครามกิลด์สุดอลังการ และพิชิตศัตรูของคุณใน AEGIS Private Server",
+                btn_register: "สร้างบัญชี",
+                btn_download: "ดาวน์โหลดเกม",
+                reg_title: "บัญชี",
+                reg_subtitle: "ลงทะเบียนบัญชี Legend Aegis อย่างเป็นทางการด้านล่าง",
+                lbl_account: "บัญชีผู้ใช้",
+                hint_account: "ตัวอักษรหรือตัวเลข 6-10 ตัว",
+                lbl_password: "รหัสผ่าน",
+                lbl_password2: "ยืนยันรหัสผ่าน",
+                lbl_question: "คำถามความปลอดภัย",
+                lbl_answer: "คำตอบความปลอดภัย",
+                lbl_email: "อีเมล",
+                lbl_ecode: "รหัสยืนยันอีเมล",
+                btn_send_code: "ส่งรหัส",
+                btn_submit_reg: "สมัครสมาชิก",
+                dl_title: "ไคลเอนต์",
+                dl_subtitle: "ดาวน์โหลดไคลเอนต์และตัวเปิดเกมอย่างเป็นทางการของ AEGIS เพื่อเริ่มเล่น",
+                pc_desc: "ดาวน์โหลดโดยตรงสำหรับไคลเอนต์เกมตัวเต็ม",
+                apk_desc: "สำหรับการอัปเดตและการติดตั้งที่มีอยู่",
+                game_download: "ดาวน์โหลดเกม",
+                comm_hub: "ศูนย์กลางชุมชน",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "เชื่อมต่อกับผู้เล่นคนอื่นๆ รับข้อมูลอัปเดตล่าสุด และรับการสนับสนุนจากชุมชนของเรา",
+                btn_join_discord: "เข้าร่วม Discord",
+                footer_tagline: "เล่น พิชิต ครอบงำ",
+                copyright: "© 2026 LEGEND AEGIS. สงวนลิขสิทธิ์ทั้งหมด"
+            },
+            vi: {
+                nav_home: "Trang chủ",
+                nav_register: "Đăng ký",
+                nav_download: "Tải về",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "TRẢI NGHIỆM MÁY CHỦ RIÊNG TƯ ĐỈNH CAO",
+                hero_desc: "Khám phá thế giới phiêu lưu mới, tham gia các cuộc chiến bang hội hoành tráng và chinh phục kẻ thù của bạn trong Máy chủ riêng AEGIS.",
+                btn_register: "Đăng ký tài khoản",
+                btn_download: "Tải game",
+                reg_title: "TÀI KHOẢN",
+                reg_subtitle: "Đăng ký tài khoản Legend Aegis chính thức của bạn bên dưới.",
+                lbl_account: "Tài khoản",
+                hint_account: "6-10 chữ cái hoặc số.",
+                lbl_password: "Mật khẩu",
+                lbl_password2: "Nhập lại mật khẩu",
+                lbl_question: "Câu hỏi bảo mật",
+                lbl_answer: "Câu trả lời bảo mật",
+                lbl_email: "Địa chỉ Email",
+                lbl_ecode: "Mã xác nhận Email",
+                btn_send_code: "Gửi mã",
+                btn_submit_reg: "Đăng ký",
+                dl_title: "CLIENT",
+                dl_subtitle: "Tải xuống client và launcher chính thức của AEGIS để bắt đầu chơi.",
+                pc_desc: "Tải xuống trực tiếp cho client trò chơi hoàn chỉnh.",
+                apk_desc: "Dành cho các bản cập nhật và cài đặt hiện có.",
+                game_download: "TẢI GAME",
+                comm_hub: "Trung tâm cộng đồng",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Kết nối với những người chơi khác, nhận thông tin cập nhật mới nhất và nhận hỗ trợ từ cộng đồng của chúng tôi.",
+                btn_join_discord: "Tham gia Discord",
+                footer_tagline: "Chơi. Chinh phục. Thống trị.",
+                copyright: "© 2026 LEGEND AEGIS. Bảo lưu mọi quyền."
+            },
+            ru: {
+                nav_home: "Главная",
+                nav_register: "Регистрация",
+                nav_download: "Скачать",
+                nav_discord: "Discord",
+                btn_discord: "Discord",
+                hero_subtitle: "ЛУЧШИЙ ОПЫТ ПРИВАТНОГО СЕРВЕРА",
+                hero_desc: "Откройте для себя новый мир приключений, участвуйте в эпических войнах гильдий и побеждайте врагов на сервере AEGIS.",
+                btn_register: "Создать аккаунт",
+                btn_download: "Скачать игру",
+                reg_title: "АККАУНТ",
+                reg_subtitle: "Зарегистрируйте официальный аккаунт Legend Aegis ниже.",
+                lbl_account: "Аккаунт",
+                hint_account: "6-10 латинских букв или цифр.",
+                lbl_password: "Пароль",
+                lbl_password2: "Повторите пароль",
+                lbl_question: "Секретный вопрос",
+                lbl_answer: "Секретный ответ",
+                lbl_email: "Электронная почта",
+                lbl_ecode: "Код подтверждения",
+                btn_send_code: "Отправить код",
+                btn_submit_reg: "Регистрация",
+                dl_title: "КЛИЕНТ",
+                dl_subtitle: "Загрузите официальный клиент и лаунчер AEGIS, чтобы начать игру.",
+                pc_desc: "Прямая загрузка полного игрового клиента.",
+                apk_desc: "Для обновлений и существующих установок.",
+                game_download: "СКАЧАТЬ ИГРУ",
+                comm_hub: "Сообщество",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "Общайтесь с другими игроками, получайте последние обновления и поддержку от нашего сообщества.",
+                btn_join_discord: "Присоединиться к Discord",
+                footer_tagline: "Играй. Покоряй. Властвуй.",
+                copyright: "© 2026 LEGEND AEGIS. Все права защищены."
+            },
+            ko: {
+                nav_home: "홈",
+                nav_register: "회원가입",
+                nav_download: "다운로드",
+                nav_discord: "디스코드",
+                btn_discord: "Discord",
+                hero_subtitle: "최고의 프라이빗 서버 경험",
+                hero_desc: "AEGIS 프라이빗 서버에서 새로운 모험의 세계를 발견하고, 치열한 길드전에 참여하며 적을 정복하세요.",
+                btn_register: "계정 만들기",
+                btn_download: "게임 다운로드",
+                reg_title: "계정",
+                reg_subtitle: "아래에서 공식 Legend Aegis 게임 계정을 등록하세요.",
+                lbl_account: "계정",
+                hint_account: "6-10자의 영문 또는 숫자.",
+                lbl_password: "비밀번호",
+                lbl_password2: "비밀번호 확인",
+                lbl_question: "보안 질문",
+                lbl_answer: "보안 답변",
+                lbl_email: "이메일 주소",
+                lbl_ecode: "이메일 인증 코드",
+                btn_send_code: "코드 전송",
+                btn_submit_reg: "계정 등록",
+                dl_title: "클라이언트",
+                dl_subtitle: "공식 AEGIS 클라이언트와 런처를 다운로드하여 게임을 시작하세요.",
+                pc_desc: "전체 게임 클라이언트 직접 다운로드.",
+                apk_desc: "업데이트 및 기존 설치용.",
+                game_download: "게임 다운로드",
+                comm_hub: "커뮤니티 허브",
+                discord_title: "AEGIS DISCORD",
+                discord_desc: "다른 플레이어들과 소통하고, 최신 업데이트를 확인하며, 커뮤니티의 지원을 받으세요.",
+                btn_join_discord: "디스코드 참여하기",
+                footer_tagline: "플레이. 정복. 지배.",
+                copyright: "© 2026 LEGEND AEGIS. All rights reserved."
+            }
+        };
+
+        // Mobile Navigation Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Language Dropdown Toggle and Selection
+        const langBtn = document.getElementById('lang-menu-btn');
+        const langDropdown = document.getElementById('lang-dropdown');
+        const currentLangSpan = document.getElementById('current-lang');
+
+        if (langBtn && langDropdown) {
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langDropdown.classList.toggle('hidden');
+            });
+
+            window.addEventListener('click', () => {
+                if (!langDropdown.classList.contains('hidden')) {
+                    langDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            try { localStorage.setItem('aegis_lang', lang); } catch (e) {}
+            const langCodes = {
+                en: 'EN',
+                pt: 'PT',
+                zh: 'ZH',
+                ph: 'PH',
+                id: 'ID',
+                th: 'TH',
+                vi: 'VN',
+                ru: 'RU',
+                ko: 'KO'
+            };
+
+            if (currentLangSpan) {
+                currentLangSpan.innerText = langCodes[lang] || 'EN';
+            }
+
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            if (langDropdown) {
+                langDropdown.classList.add('hidden');
+            }
+        }
+
+        // Restore the language chosen on another page
+        try {
+            const savedLang = localStorage.getItem('aegis_lang');
+            if (savedLang && savedLang !== 'en' && translations[savedLang]) setLanguage(savedLang);
+        } catch (e) {}
+    </script>
+</body>
+</html>

@@ -6,8 +6,6 @@
     <title>LEGEND AEGIS</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Cloudflare Turnstile -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Orbitron & Inter -->
@@ -99,7 +97,7 @@
             <!-- Desktop Nav Links -->
             <nav class="hidden md:flex items-center space-x-6 font-heading text-sm uppercase tracking-wider">
                 <a href="#home" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_home">Home</a>
-                <a href="#register" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_register">Register</a>
+                <a href="/register" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_register">Register</a>
                 <a href="#download" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_download">Download</a>
                 <a href="#discord" class="text-gray-300 hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold" data-i18n="nav_discord">Discord</a>
 
@@ -141,7 +139,7 @@
         <!-- Mobile Navigation Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-b border-brand-gold/30 px-4 pt-2 pb-6 space-y-3 font-heading uppercase text-sm">
             <a href="#home" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_home">Home</a>
-            <a href="#register" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_register">Register</a>
+            <a href="/register" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_register">Register</a>
             <a href="#download" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_download">Download</a>
             <a href="#discord" class="block py-2 text-gray-300 hover:text-brand-gold border-b border-gray-800" data-i18n="nav_discord">Discord</a>
         </div>
@@ -174,7 +172,7 @@
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                    <a href="#register" 
+                    <a href="/register" 
                        class="inline-flex items-center justify-center gap-3 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-8 py-4 rounded-xl shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-1">
                         <i class="fa-solid fa-user-plus text-xl"></i>
                         <span data-i18n="btn_register">Register Account</span>
@@ -183,195 +181,6 @@
                        class="inline-flex items-center justify-center gap-3 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-8 py-4 rounded-xl shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 transform hover:-translate-y-1">
                         <i class="fa-solid fa-download text-xl"></i>
                         <span data-i18n="btn_download">Download Game</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Register Section -->
-        <section id="register" class="py-20 px-4 sm:px-6 lg:px-8 max-w-xl mx-auto">
-            <div class="text-center mb-10">
-                <h2 class="font-heading font-black text-3xl sm:text-4xl uppercase tracking-wider mb-3">
-                    CREATE <span class="text-brand-gold text-glow" data-i18n="reg_title">ACCOUNT</span>
-                </h2>
-                <p class="text-gray-400 text-sm sm:text-base" data-i18n="reg_subtitle">
-                    Register your official Legend Aegis game account below.
-                </p>
-                <div class="w-24 h-1 bg-brand-gold mx-auto mt-4 rounded-full"></div>
-            </div>
-
-            <!-- Registration Card -->
-            <div class="bg-brand-card border border-brand-gold/40 rounded-2xl shadow-neon-gold p-6 sm:p-8">
-                <!-- Alert Message Box -->
-                <div id="reg-alert" class="hidden mb-6 p-4 rounded-xl text-sm font-medium flex items-start gap-3">
-                    <i id="reg-alert-icon" class="fa-solid mt-0.5 text-base"></i>
-                    <span id="reg-alert-text"></span>
-                </div>
-
-                <form id="aegis-register-form" class="space-y-5" novalidate>
-                    <!-- Account -->
-                    <div>
-                        <label for="account" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
-                            <span data-i18n="lbl_account">Account</span> <span class="text-brand-gold">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
-                                <i class="fa-solid fa-user"></i>
-                            </span>
-                            <input type="text" id="account" name="account" maxlength="10" required
-                                placeholder="6-10 letters or numbers"
-                                class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors">
-                        </div>
-                        <p class="text-[11px] text-gray-500 mt-1" data-i18n="hint_account">6-10 alphanumeric characters (letters or numbers only).</p>
-                    </div>
-
-                    <!-- Password -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label for="password" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
-                                <span data-i18n="lbl_password">Password</span> <span class="text-brand-gold">*</span>
-                            </label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
-                                    <i class="fa-solid fa-lock"></i>
-                                </span>
-                                <input type="password" id="password" name="password" maxlength="14" required
-                                    placeholder="6-14 characters"
-                                    class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors">
-                                <button type="button" onclick="togglePassword('password', this)" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-brand-gold">
-                                    <i class="fa-solid fa-eye text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="password2" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
-                                <span data-i18n="lbl_password2">Re-enter Password</span> <span class="text-brand-gold">*</span>
-                            </label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
-                                    <i class="fa-solid fa-shield-halved"></i>
-                                </span>
-                                <input type="password" id="password2" name="password2" maxlength="14" required
-                                    placeholder="Confirm password"
-                                    class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors">
-                                <button type="button" onclick="togglePassword('password2', this)" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-brand-gold">
-                                    <i class="fa-solid fa-eye text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Security Question -->
-                    <div>
-                        <label for="question" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
-                            <span data-i18n="lbl_question">Security Question</span> <span class="text-brand-gold">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500 pointer-events-none">
-                                <i class="fa-solid fa-circle-question"></i>
-                            </span>
-                            <select id="question" name="question" required
-                                class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-10 py-3 text-sm text-white outline-none appearance-none transition-colors">
-                                <option value="" disabled selected>Select a security question</option>
-                                <option value="Father's name">Father's name</option>
-                                <option value="Mother's name">Mother's name</option>
-                                <option value="Name of favorite person">Name of favorite person</option>
-                                <option value="The first online game">The first online game</option>
-                            </select>
-                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 pointer-events-none">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Security Answer -->
-                    <div>
-                        <label for="answer" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
-                            <span data-i18n="lbl_answer">Security Answer</span> <span class="text-brand-gold">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
-                                <i class="fa-solid fa-key"></i>
-                            </span>
-                            <input type="text" id="answer" name="answer" required
-                                placeholder="Enter your security answer"
-                                class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors">
-                        </div>
-                    </div>
-
-                    <!-- Email with Domain Dropdown -->
-                    <div>
-                        <label for="email-prefix" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
-                            <span data-i18n="lbl_email">Email Address</span> <span class="text-brand-gold">*</span>
-                        </label>
-                        <div class="flex rounded-xl overflow-hidden border border-gray-700 focus-within:border-brand-gold focus-within:ring-1 focus-within:ring-brand-gold bg-brand-dark transition-colors">
-                            <div class="relative flex-grow">
-                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </span>
-                                <input type="text" id="email-prefix" name="emailPrefix" required
-                                    placeholder="yourname"
-                                    class="w-full bg-transparent pl-10 pr-3 py-3 text-sm text-white placeholder-gray-500 outline-none">
-                            </div>
-                            <div class="relative border-l border-gray-700 bg-brand-cardHover">
-                                <select id="email-domain" name="emailDomain" aria-label="Email domain"
-                                    class="h-full bg-transparent pl-3 pr-8 py-3 text-sm font-semibold text-brand-gold outline-none appearance-none cursor-pointer">
-                                    <option value="@gmail.com">@gmail.com</option>
-                                    <option value="@outlook.com">@outlook.com</option>
-                                    <option value="@qq.com">@qq.com</option>
-                                </select>
-                                <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-brand-gold pointer-events-none">
-                                    <i class="fa-solid fa-caret-down text-xs"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Email Verification Code -->
-                    <div>
-                        <label for="ecode" class="block text-xs font-heading uppercase tracking-wider text-gray-300 mb-2">
-                            <span data-i18n="lbl_ecode">Email Verification Code</span> <span class="text-brand-gold">*</span>
-                        </label>
-                        <div class="flex gap-2.5">
-                            <div class="relative flex-grow">
-                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gray-500">
-                                    <i class="fa-solid fa-hashtag"></i>
-                                </span>
-                                <input type="text" id="ecode" name="ecode" required
-                                    placeholder="Enter email code"
-                                    class="w-full bg-brand-dark border border-gray-700 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-500 outline-none uppercase transition-colors">
-                            </div>
-                            <button type="button" id="send-code-btn"
-                                class="shrink-0 bg-brand-gold/15 hover:bg-brand-gold text-brand-gold hover:text-black border border-brand-gold/50 font-heading font-bold text-xs uppercase px-4 py-3 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-                                <span id="send-code-text" data-i18n="btn_send_code">Send Code</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Cloudflare Turnstile Captcha -->
-                    <!-- Turnstile site key ng aegismir.com (naka-whitelist na ang domain natin sa kanila) -->
-                    <div class="flex justify-center">
-                        <div class="cf-turnstile" data-sitekey="0x4AAAAAABppbUt4zwA5Kgds" data-theme="dark"></div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="pt-2">
-                        <button type="submit" id="submit-reg-btn"
-                            class="w-full inline-flex items-center justify-center gap-2 bg-brand-gold hover:bg-amber-600 text-black font-heading font-bold text-sm uppercase px-6 py-4 rounded-xl shadow-neon-gold hover:shadow-neon-hover transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed">
-                            <i class="fa-solid fa-user-check text-base"></i>
-                            <span id="submit-reg-text" data-i18n="btn_submit_reg">Register Account</span>
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Alternative registration -->
-                <div class="mt-6 pt-6 border-t border-gray-800 text-center">
-                    <p class="text-xs text-gray-400 mb-3" data-i18n="alt_reg_text">Having trouble registering here? Use the alternative registration instead.</p>
-                    <a href="https://aegismir.com/#/signup?d=36" target="_blank" rel="noopener noreferrer"
-                        class="inline-flex items-center justify-center gap-2 border border-brand-gold/50 text-brand-gold hover:bg-brand-gold hover:text-black font-heading font-bold text-xs uppercase px-5 py-3 rounded-xl transition-all duration-200">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        <span data-i18n="alt_reg_btn">Alternative Registration</span>
                     </a>
                 </div>
             </div>
@@ -483,231 +292,6 @@
             return (typeof translations !== 'undefined' && translations[currentLang] && translations[currentLang][key]) || fallback;
         }
 
-        // Toggle password visibility
-        function togglePassword(inputId, btn) {
-            const input = document.getElementById(inputId);
-            const icon = btn.querySelector('i');
-            if (!input || !icon) return;
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        }
-
-        // Alert helper
-        function showRegAlert(type, message) {
-            const box = document.getElementById('reg-alert');
-            const icon = document.getElementById('reg-alert-icon');
-            const text = document.getElementById('reg-alert-text');
-            if (!box || !icon || !text) return;
-
-            box.className = 'mb-6 p-4 rounded-xl text-sm font-medium flex items-start gap-3 border';
-            icon.className = 'fa-solid mt-0.5 text-base';
-
-            if (type === 'success') {
-                box.classList.add('bg-emerald-950/70', 'border-emerald-500/50', 'text-emerald-300');
-                icon.classList.add('fa-circle-check', 'text-emerald-400');
-            } else {
-                box.classList.add('bg-red-950/70', 'border-red-500/50', 'text-red-300');
-                icon.classList.add('fa-circle-exclamation', 'text-red-400');
-            }
-
-            text.textContent = message;
-            box.classList.remove('hidden');
-        }
-
-        function hideRegAlert() {
-            const box = document.getElementById('reg-alert');
-            if (box) box.classList.add('hidden');
-        }
-
-        // Build full email from prefix + dropdown domain
-        function getFullEmail() {
-            const prefixInput = document.getElementById('email-prefix');
-            const domainSelect = document.getElementById('email-domain');
-            let prefix = (prefixInput ? prefixInput.value : '').trim();
-            const domain = domainSelect ? domainSelect.value : '@gmail.com';
-
-            if (!prefix) return '';
-            // If user accidentally typed "@gmail.com" inside the prefix box, strip it
-            if (prefix.includes('@')) {
-                prefix = prefix.split('@')[0].trim();
-            }
-            if (!prefix) return '';
-            return `${prefix}${domain}`;
-        }
-
-        // Send Verification Code Handler
-        const sendCodeBtn = document.getElementById('send-code-btn');
-        const sendCodeText = document.getElementById('send-code-text');
-        let cooldownTimer = null;
-
-        function startSendCodeCooldown(seconds = 60) {
-            if (!sendCodeBtn || !sendCodeText) return;
-            sendCodeBtn.disabled = true;
-            let remaining = seconds;
-            sendCodeText.textContent = `${remaining}s`;
-
-            clearInterval(cooldownTimer);
-            cooldownTimer = setInterval(() => {
-                remaining -= 1;
-                if (remaining <= 0) {
-                    clearInterval(cooldownTimer);
-                    sendCodeBtn.disabled = false;
-                    sendCodeText.textContent = tr('btn_send_code', 'Send Code');
-                } else {
-                    sendCodeText.textContent = `${remaining}s`;
-                }
-            }, 1000);
-        }
-
-        // Aegis session cookie returned by send_code, sent back on register
-        let aegisSess = '';
-
-        if (sendCodeBtn) {
-            sendCodeBtn.addEventListener('click', async () => {
-                hideRegAlert();
-                const email = getFullEmail();
-
-                if (!email) {
-                    showRegAlert('error', 'Please enter your email username first.');
-                    document.getElementById('email-prefix')?.focus();
-                    return;
-                }
-
-                sendCodeBtn.disabled = true;
-                sendCodeText.textContent = 'Sending...';
-
-                try {
-                    const response = await fetch('/api/register', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            game: 'AEGIS',
-                            action: 'send_code',
-                            email
-                        })
-                    });
-
-                    const data = await response.json().catch(() => ({}));
-
-                    if (response.ok && data.ok) {
-                        aegisSess = data.sess || '';
-                        showRegAlert('success', 'Code sent. Please check your inbox');
-                        startSendCodeCooldown(60);
-                    } else {
-                        showRegAlert('error', data.message || 'Failed to send verification code.');
-                        sendCodeBtn.disabled = false;
-                        sendCodeText.textContent = tr('btn_send_code', 'Send Code');
-                    }
-                } catch (err) {
-                    showRegAlert('error', 'Network error while sending verification code.');
-                    sendCodeBtn.disabled = false;
-                    sendCodeText.textContent = tr('btn_send_code', 'Send Code');
-                }
-            });
-        }
-
-        // Form Submit Handler
-        const regForm = document.getElementById('aegis-register-form');
-        const submitRegBtn = document.getElementById('submit-reg-btn');
-        const submitRegText = document.getElementById('submit-reg-text');
-
-        if (regForm) {
-            regForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                hideRegAlert();
-
-                const account = document.getElementById('account').value.trim();
-                const password = document.getElementById('password').value;
-                const password2 = document.getElementById('password2').value;
-                const question = document.getElementById('question').value;
-                const answer = document.getElementById('answer').value.trim();
-                const email = getFullEmail();
-                const ecode = document.getElementById('ecode').value.trim();
-
-                if (!/^[A-Za-z0-9]{6,10}$/.test(account)) {
-                    showRegAlert('error', 'Account must be 6-10 letters or numbers.');
-                    return;
-                }
-                if (password.length < 6 || password.length > 14) {
-                    showRegAlert('error', 'Password must be 6-14 characters.');
-                    return;
-                }
-                if (password !== password2) {
-                    showRegAlert('error', 'Passwords do not match.');
-                    return;
-                }
-                if (!question) {
-                    showRegAlert('error', 'Please select a security question.');
-                    return;
-                }
-                if (!answer) {
-                    showRegAlert('error', 'Please enter your security answer.');
-                    return;
-                }
-                if (!email) {
-                    showRegAlert('error', 'Please enter your email address.');
-                    return;
-                }
-                if (!ecode) {
-                    showRegAlert('error', 'Please enter the email verification code.');
-                    return;
-                }
-
-                const tsInput = regForm.querySelector('[name="cf-turnstile-response"]');
-                const turnstileToken = tsInput ? tsInput.value : '';
-                if (!turnstileToken) {
-                    showRegAlert('error', 'Please complete the captcha verification.');
-                    return;
-                }
-
-                submitRegBtn.disabled = true;
-                submitRegText.textContent = 'Registering...';
-
-                try {
-                    const response = await fetch('/api/register', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            game: 'AEGIS',
-                            action: 'register',
-                            account,
-                            password,
-                            password2,
-                            question,
-                            answer,
-                            email,
-                            ecode,
-                            sess: aegisSess,
-                            turnstileToken,
-                            d: '36'
-                        })
-                    });
-
-                    const data = await response.json().catch(() => ({}));
-
-                    if (response.ok && data.ok) {
-                        showRegAlert('success', data.message || 'Account registered successfully! You can now log in to Legend Aegis.');
-                        regForm.reset();
-                    } else {
-                        showRegAlert('error', data.message || 'Registration failed. Please check your details and try again.');
-                    }
-                } catch (err) {
-                    showRegAlert('error', 'Network error while submitting registration.');
-                } finally {
-                    if (window.turnstile) window.turnstile.reset();
-                    submitRegBtn.disabled = false;
-                    submitRegText.textContent = tr('btn_submit_reg', 'Register Account');
-                }
-            });
-        }
-
         // Download popup: show Coming Soon for Windows PC or Android.
         function showDownloadComingSoon(platform) {
             const modal = document.getElementById('download-coming-soon-modal');
@@ -755,8 +339,6 @@
                 lbl_ecode: "Email Verification Code",
                 btn_send_code: "Send Code",
                 btn_submit_reg: "Register Account",
-                alt_reg_text: "Having trouble registering here? Use the alternative registration instead.",
-                alt_reg_btn: "Alternative Registration",
                 dl_title: "CLIENT",
                 dl_subtitle: "Download the official AEGIS client and launcher to start playing.",
                 pc_desc: "Direct download for the complete game client.",
@@ -859,8 +441,6 @@
                 lbl_ecode: "Email Code",
                 btn_send_code: "Send Code",
                 btn_submit_reg: "Magrehistro",
-                alt_reg_text: "Nahihirapan magrehistro dito? Gamitin ang alternatibong registration.",
-                alt_reg_btn: "Alternatibong Registration",
                 dl_title: "CLIENT",
                 dl_subtitle: "I-download ang opisyal na AEGIS client at launcher upang magsimulang maglaro.",
                 pc_desc: "Direktang pag-download para sa kumpletong client ng laro.",
@@ -1081,6 +661,7 @@
 
         function setLanguage(lang) {
             currentLang = lang;
+            try { localStorage.setItem('aegis_lang', lang); } catch (e) {}
             const langCodes = {
                 en: 'EN',
                 pt: 'PT',
@@ -1109,6 +690,12 @@
                 langDropdown.classList.add('hidden');
             }
         }
+
+        // Restore the language chosen on another page
+        try {
+            const savedLang = localStorage.getItem('aegis_lang');
+            if (savedLang && savedLang !== 'en' && translations[savedLang]) setLanguage(savedLang);
+        } catch (e) {}
     </script>
 </body>
 </html>

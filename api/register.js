@@ -200,7 +200,7 @@ async function handleAegis(req, res, body) {
       ) {
         return send(res, 200, {
           ok: true,
-          message: extractErrorMessage(data) || "MIR4 AEGIS account registered successfully!",
+          message: "Account registered successfully! You can now log in to Legend Aegis.",
         });
       }
 
