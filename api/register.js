@@ -67,27 +67,6 @@ function getCookieHeader(response) {
   return single ? single.split(";")[0].trim() : "";
 }
 
-async function verifyTurnstile(token) {
-  const secret = process.env.TURNSTILE_SECRET;
-  if (!secret) {
-    console.error("TURNSTILE_SECRET is not configured in Vercel.");
-    return "system";
-  }
-  if (!token) return "missing";
-  try {
-    const r = await fetch(TURNSTILE_VERIFY, {
-      method: "POST",
-      headers: { "content-type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret, response: token }),
-    });
-    const d = await r.json().catch(() => null);
-    return r.ok && d && d.success ? "ok" : "failed";
-  } catch (err) {
-    console.error("Turnstile verify error:", err);
-    return "system";
-  }
-}
-
 async function handleAegis(req, res, body) {
   const action = typeof body.action === "string" ? body.action.trim() : "";
   const email = typeof body.email === "string" ? body.email.trim() : "";
@@ -174,11 +153,10 @@ async function handleAegis(req, res, body) {
       return field(res, "Email verification code is required.");
     }
 
+    // Turnstile token is validated by aegismir.com (their site key + secret)
     const tsToken = typeof body.turnstileToken === "string" ? body.turnstileToken : "";
-    const tsResult = await verifyTurnstile(tsToken);
-    if (tsResult === "system") return system(res);
-    if (tsResult !== "ok") {
-      return field(res, "Captcha verification failed. Please try again.");
+    if (!tsToken) {
+      return field(res, "Captcha verification is required.");
     }
 
     try {
@@ -197,7 +175,8 @@ async function handleAegis(req, res, body) {
           question,
           answer,
           ecode,
-          "g-recaptcha-response": body["g-recaptcha-response"] || "",
+          "cf-turnstile-response": tsToken,
+          "g-recaptcha-response": tsToken,
           d,
           email,
         }),
