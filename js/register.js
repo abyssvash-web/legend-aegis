@@ -5,9 +5,21 @@
   if (!C || !form) return;
   if (!C.enabled) { form.classList.add('hidden'); $('reg-closed').classList.remove('hidden'); return; }
 
-  let token = '';
+  let token = '', timer = null;
   const showError = key => { const e = $('reg-error'); e.textContent = t(key); e.classList.remove('hidden'); };
+  const clearError = () => $('reg-error').classList.add('hidden');
+  const emailLocal = () => $('reg-email').value.trim();
+  const emailValid = () => /^[A-Za-z0-9._+-]{1,64}$/.test(emailLocal());
+  const resetCaptcha = () => { if (window.turnstile) { try { turnstile.reset(); } catch (e) {} } token = ''; };
 
+  // Show / hide password
+  form.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', () => {
+    const i = $(b.dataset.toggle), show = i.type === 'password';
+    i.type = show ? 'text' : 'password';
+    b.firstElementChild.className = 'fa-solid ' + (show ? 'fa-eye-slash' : 'fa-eye');
+  }));
+
+  // Cloudflare Turnstile (checked when sending the email code)
   if (C.turnstileSiteKey) {
     const render = () => turnstile.render('#reg-turnstile', { sitekey: C.turnstileSiteKey, theme: 'dark', callback: v => { token = v; } });
     if (window.turnstile) render();
@@ -22,34 +34,70 @@
     }
   }
 
+  // Send code (60s cooldown)
+  const sendBtn = $('reg-send');
+  function cooldown(sec) {
+    clearInterval(timer);
+    sendBtn.disabled = true;
+    const tick = () => {
+      if (sec <= 0) { clearInterval(timer); sendBtn.disabled = false; sendBtn.textContent = t('reg_send'); return; }
+      sendBtn.textContent = sec + 's'; sec--;
+    };
+    tick(); timer = setInterval(tick, 1000);
+  }
+  document.addEventListener('langchange', () => { if (!sendBtn.disabled) sendBtn.textContent = t('reg_send'); });
+
+  sendBtn.addEventListener('click', async () => {
+    clearError();
+    if (!emailValid()) return showError('reg_err_email');
+    if (C.turnstileSiteKey && !token) return showError('rc_err_captcha');
+    sendBtn.disabled = true;
+    try {
+      const r = await fetch('/api/send-code', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailLocal() + '@' + $('reg-domain').value, turnstile: token }) });
+      const j = await r.json().catch(() => ({}));
+      resetCaptcha();
+      if (r.ok) {
+        const ok = $('reg-success'); ok.textContent = t('reg_sent'); ok.classList.remove('hidden');
+        return cooldown(60);
+      }
+      const map = { email: 'reg_err_email', captcha: 'rc_err_captcha', taken: 'reg_err_taken', wait: 'reg_err_wait' };
+      showError(map[j.error] || 'reg_err_send');
+      if (j.detail) $('reg-error').textContent += ' [' + j.detail + ']';
+      if (j.error === 'wait') return cooldown(60);
+    } catch (e) { showError('reg_err_send'); resetCaptcha(); }
+    sendBtn.disabled = false;
+  });
+
+  // Create account
   form.addEventListener('submit', async ev => {
     ev.preventDefault();
-    $('reg-error').classList.add('hidden');
-    const username = $('reg-username').value.trim(), email = $('reg-email').value.trim();
-    const password = $('reg-password').value, password2 = $('reg-password2').value;
-    if (!/^[A-Za-z0-9_]{4,20}$/.test(username)) return showError('rc_err_username');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('rc_err_email');
-    if (password.length < 8 || password.length > 32) return showError('reg_err_password');
-    if (password !== password2) return showError('reg_err_match');
-    if (!$('reg-terms').checked) return showError('reg_err_terms');
-    if (C.turnstileSiteKey && !token) return showError('rc_err_captcha');
+    clearError(); $('reg-success').classList.add('hidden');
+    const username = $('reg-username').value.trim(), password = $('reg-password').value;
+    const question = $('reg-question').value, answer = $('reg-answer').value.trim(), code = $('reg-code').value.trim();
+    if (!/^[A-Za-z0-9]{6,10}$/.test(username)) return showError('reg_err_username');
+    if (password.length < 6 || password.length > 14) return showError('reg_err_password');
+    if (password !== $('reg-password2').value) return showError('reg_err_match');
+    if (!question) return showError('reg_err_question');
+    if (answer.length < 2 || answer.length > 50) return showError('reg_err_answer');
+    if (!emailValid()) return showError('reg_err_email');
+    if (!/^\d{6}$/.test(code)) return showError('reg_err_code');
     const btn = $('reg-submit'); btn.disabled = true;
     try {
       const r = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password, terms: true, turnstile: token }) });
+        body: JSON.stringify({ username, password, question, answer, email: emailLocal() + '@' + $('reg-domain').value, code }) });
       const j = await r.json().catch(() => ({}));
       if (r.ok) {
-        form.reset();
+        form.reset(); clearInterval(timer); sendBtn.disabled = false; sendBtn.textContent = t('reg_send'); resetCaptcha();
         const ok = $('reg-success'); ok.textContent = t('reg_done'); ok.classList.remove('hidden');
-        btn.disabled = false;
-        if (window.turnstile) { turnstile.reset(); token = ''; }
-        return;
+        $('register').scrollIntoView();
+      } else {
+        const map = { username: 'reg_err_username', password: 'reg_err_password', question: 'reg_err_question', answer: 'reg_err_answer',
+          email: 'reg_err_email', code: 'reg_err_code', badcode: 'reg_err_badcode', taken: 'reg_err_taken' };
+        showError(map[j.error] || 'reg_err_net');
+        if (j.detail) $('reg-error').textContent += ' [' + j.detail + ']';
       }
-      const map = { username: 'rc_err_username', email: 'rc_err_email', password: 'reg_err_password', terms: 'reg_err_terms', captcha: 'rc_err_captcha', taken: 'reg_err_taken' };
-      showError(map[j.error] || 'reg_err_net');
-      if (j.detail) $('reg-error').textContent += ' [' + j.detail + ']';
     } catch (e) { showError('reg_err_net'); }
     btn.disabled = false;
-    if (window.turnstile) { turnstile.reset(); token = ''; }
   });
 })();

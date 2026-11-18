@@ -5,6 +5,8 @@ const fail = (res, code, error, detail) => res.status(code).json(detail && proce
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return fail(res, 405, 'method');
+  // Recharge is OFF by default. Set RECHARGE_ENABLED=1 in Vercel (and recharge.enabled=true in js/config.js) to turn it back on.
+  if (process.env.RECHARGE_ENABLED !== '1') return fail(res, 503, 'closed');
   const b = req.body || {};
   const username = String(b.username || '').trim();
   const email = String(b.email || '').trim();
