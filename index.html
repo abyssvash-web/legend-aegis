@@ -352,7 +352,7 @@
                     <!-- Cloudflare Turnstile Captcha -->
                     <!-- PALITAN ang YOUR_TURNSTILE_SITE_KEY ng Turnstile site key mo (dapat nakalista ang domain mo sa Cloudflare) -->
                     <div class="flex justify-center">
-                        <div class="cf-turnstile" data-sitekey="0x4AAAAAAGGh5iVuDpcrhQAr" data-theme="dark"></div>
+                        <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="dark"></div>
                     </div>
 
                     <!-- Submit Button -->
@@ -594,7 +594,7 @@
                     const data = await response.json().catch(() => ({}));
 
                     if (response.ok && data.ok) {
-                        showRegAlert('success', data.message || `Verification code sent to ${email}!`);
+                        showRegAlert('success', 'Code sent. Please check your inbox');
                         startSendCodeCooldown(60);
                     } else {
                         showRegAlert('error', data.message || 'Failed to send verification code.');

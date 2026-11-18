@@ -128,7 +128,7 @@ async function handleAegis(req, res, body) {
       ) {
         return send(res, 200, {
           ok: true,
-          message: extractErrorMessage(data) || "Verification code sent!",
+          message: "Code sent. Please check your inbox",
         });
       }
 
@@ -138,7 +138,7 @@ async function handleAegis(req, res, body) {
       }
 
       if (mailRes.ok && data) {
-        return send(res, 200, { ok: true, message: "Verification code sent!" });
+        return send(res, 200, { ok: true, message: "Code sent. Please check your inbox" });
       }
 
       return field(res, "Failed to send verification code. Please try again.");
