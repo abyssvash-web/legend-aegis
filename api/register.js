@@ -1,103 +1,55 @@
-(function () {
-  const C = window.AEGIS_CONFIG && window.AEGIS_CONFIG.register;
-  const $ = id => document.getElementById(id);
-  const form = $('reg-form');
-  if (!C || !form) return;
-  if (!C.enabled) { form.classList.add('hidden'); $('reg-closed').classList.remove('hidden'); return; }
+const crypto = require('crypto');
+const { db, discord } = require('./_shared');
+const { codeHash } = require('./send-code');
+// Set DEBUG_ERRORS=1 in Vercel to see technical details in the browser while testing. Remove it when live.
+const fail = (res, code, error, detail) => res.status(code).json(detail && process.env.DEBUG_ERRORS === '1' ? { error, detail: String(detail).slice(0, 300) } : { error });
+const DOMAINS = ['gmail.com', 'outlook.com', 'qq.com'];
+const QUESTIONS = ['father', 'mother', 'favorite', 'game'];
 
-  let token = '', timer = null;
-  const showError = key => { const e = $('reg-error'); e.textContent = t(key); e.classList.remove('hidden'); };
-  const clearError = () => $('reg-error').classList.add('hidden');
-  const emailLocal = () => $('reg-email').value.trim();
-  const emailValid = () => /^[A-Za-z0-9._+-]{1,64}$/.test(emailLocal());
-  const resetCaptcha = () => { if (window.turnstile) { try { turnstile.reset(); } catch (e) {} } token = ''; };
+// NOTE: passwords and security answers are stored as salted scrypt hashes, never plain text.
+// If your game server expects a specific hash (MD5, SHA, etc.), change hash() to match it.
+function hash(text) {
+  const salt = crypto.randomBytes(16);
+  return `scrypt$${salt.toString('hex')}$${crypto.scryptSync(text, salt, 64).toString('hex')}`;
+}
 
-  // Show / hide password
-  form.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', () => {
-    const i = $(b.dataset.toggle), show = i.type === 'password';
-    i.type = show ? 'text' : 'password';
-    b.firstElementChild.className = 'fa-solid ' + (show ? 'fa-eye-slash' : 'fa-eye');
-  }));
+module.exports = async (req, res) => {
+  if (req.method !== 'POST') return fail(res, 405, 'method');
+  const b = req.body || {};
+  const username = String(b.username || '').trim();
+  const email = String(b.email || '').trim().toLowerCase();
+  const password = String(b.password || '');
+  const answer = String(b.answer || '').trim().toLowerCase();
+  const code = String(b.code || '').trim();
+  const [local, domain] = email.split('@');
+  if (!/^[A-Za-z0-9]{6,10}$/.test(username)) return fail(res, 400, 'username');
+  if (password.length < 6 || password.length > 14) return fail(res, 400, 'password');
+  if (!QUESTIONS.includes(b.question)) return fail(res, 400, 'question');
+  if (answer.length < 2 || answer.length > 50) return fail(res, 400, 'answer');
+  if (!local || !/^[a-z0-9._+-]{1,64}$/.test(local) || !DOMAINS.includes(domain)) return fail(res, 400, 'email');
+  if (!/^\d{6}$/.test(code)) return fail(res, 400, 'code');
 
-  // Cloudflare Turnstile (checked when sending the email code)
-  if (C.turnstileSiteKey) {
-    const render = () => turnstile.render('#reg-turnstile', { sitekey: C.turnstileSiteKey, theme: 'dark', callback: v => { token = v; } });
-    if (window.turnstile) render();
-    else {
-      const prev = window.onTurnstileLoad;
-      window.onTurnstileLoad = () => { if (prev) prev(); render(); };
-      if (!document.querySelector('script[src*="turnstile/v0/api.js"]')) {
-        const s = document.createElement('script');
-        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad'; s.async = true;
-        document.head.append(s);
-      }
+  try {
+    // 1) verify the emailed code (max 5 tries, 10 min expiry, single use)
+    const q = encodeURIComponent(email);
+    const found = await db(`email_codes?email=eq.${q}&select=*&limit=1`);
+    if (found.skipped) return fail(res, 500, 'server', 'database not configured');
+    const row = found.data && found.data[0];
+    if (!row || new Date(row.expires_at) < new Date() || row.attempts >= 5) return fail(res, 400, 'badcode');
+    const a = Buffer.from(codeHash(email, code)), c = Buffer.from(row.code_hash);
+    if (a.length !== c.length || !crypto.timingSafeEqual(a, c)) {
+      await db(`email_codes?email=eq.${q}`, 'PATCH', { attempts: row.attempts + 1 }, 'return=minimal');
+      return fail(res, 400, 'badcode');
     }
-  }
-
-  // Send code (60s cooldown)
-  const sendBtn = $('reg-send');
-  function cooldown(sec) {
-    clearInterval(timer);
-    sendBtn.disabled = true;
-    const tick = () => {
-      if (sec <= 0) { clearInterval(timer); sendBtn.disabled = false; sendBtn.textContent = t('reg_send'); return; }
-      sendBtn.textContent = sec + 's'; sec--;
-    };
-    tick(); timer = setInterval(tick, 1000);
-  }
-  document.addEventListener('langchange', () => { if (!sendBtn.disabled) sendBtn.textContent = t('reg_send'); });
-
-  sendBtn.addEventListener('click', async () => {
-    clearError();
-    if (!emailValid()) return showError('reg_err_email');
-    if (C.turnstileSiteKey && !token) return showError('rc_err_captcha');
-    sendBtn.disabled = true;
+    // 2) create the account (unique username/email enforced by the database)
     try {
-      const r = await fetch('/api/send-code', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: emailLocal() + '@' + $('reg-domain').value, turnstile: token }) });
-      const j = await r.json().catch(() => ({}));
-      resetCaptcha();
-      if (r.ok) {
-        const ok = $('reg-success'); ok.textContent = t('reg_sent'); ok.classList.remove('hidden');
-        return cooldown(60);
-      }
-      const map = { email: 'reg_err_email', captcha: 'rc_err_captcha', taken: 'reg_err_taken', wait: 'reg_err_wait' };
-      showError(map[j.error] || 'reg_err_send');
-      if (j.detail) $('reg-error').textContent += ' [' + j.detail + ']';
-      if (j.error === 'wait') return cooldown(60);
-    } catch (e) { showError('reg_err_send'); resetCaptcha(); }
-    sendBtn.disabled = false;
-  });
-
-  // Create account
-  form.addEventListener('submit', async ev => {
-    ev.preventDefault();
-    clearError(); $('reg-success').classList.add('hidden');
-    const username = $('reg-username').value.trim(), password = $('reg-password').value;
-    const question = $('reg-question').value, answer = $('reg-answer').value.trim(), code = $('reg-code').value.trim();
-    if (!/^[A-Za-z0-9]{6,10}$/.test(username)) return showError('reg_err_username');
-    if (password.length < 6 || password.length > 14) return showError('reg_err_password');
-    if (password !== $('reg-password2').value) return showError('reg_err_match');
-    if (!question) return showError('reg_err_question');
-    if (answer.length < 2 || answer.length > 50) return showError('reg_err_answer');
-    if (!emailValid()) return showError('reg_err_email');
-    if (!/^\d{6}$/.test(code)) return showError('reg_err_code');
-    const btn = $('reg-submit'); btn.disabled = true;
-    try {
-      const r = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, question, answer, email: emailLocal() + '@' + $('reg-domain').value, code }) });
-      const j = await r.json().catch(() => ({}));
-      if (r.ok) {
-        form.reset(); clearInterval(timer); sendBtn.disabled = false; sendBtn.textContent = t('reg_send'); resetCaptcha();
-        const ok = $('reg-success'); ok.textContent = t('reg_done'); ok.classList.remove('hidden');
-        $('register').scrollIntoView();
-      } else {
-        const map = { username: 'reg_err_username', password: 'reg_err_password', question: 'reg_err_question', answer: 'reg_err_answer',
-          email: 'reg_err_email', code: 'reg_err_code', badcode: 'reg_err_badcode', taken: 'reg_err_taken' };
-        showError(map[j.error] || 'reg_err_net');
-        if (j.detail) $('reg-error').textContent += ' [' + j.detail + ']';
-      }
-    } catch (e) { showError('reg_err_net'); }
-    btn.disabled = false;
-  });
-})();
+      await db('accounts', 'POST', { username, email, password_hash: hash(password), security_question: b.question, security_answer_hash: hash(answer) }, 'return=minimal');
+    } catch (e) {
+      if (/ 409 |23505/.test(e.message)) return fail(res, 409, 'taken');
+      throw e;
+    }
+    await db(`email_codes?email=eq.${q}`, 'DELETE', null, 'return=minimal').catch(() => {});
+  } catch (e) { console.error(e.message); return fail(res, 500, 'server', e.message); }
+  await discord({ content: `New account registered: ${username}` });
+  return res.status(200).json({ ok: true });
+};
