@@ -459,6 +459,12 @@
 
     <!-- Scripts Section -->
     <script>
+        // Current language + translation lookup (keeps JS-set button text in the chosen language)
+        let currentLang = 'en';
+        function tr(key, fallback) {
+            return (typeof translations !== 'undefined' && translations[currentLang] && translations[currentLang][key]) || fallback;
+        }
+
         // Toggle password visibility
         function togglePassword(inputId, btn) {
             const input = document.getElementById(inputId);
@@ -535,7 +541,7 @@
                 if (remaining <= 0) {
                     clearInterval(cooldownTimer);
                     sendCodeBtn.disabled = false;
-                    sendCodeText.textContent = 'Send Code';
+                    sendCodeText.textContent = tr('btn_send_code', 'Send Code');
                 } else {
                     sendCodeText.textContent = `${remaining}s`;
                 }
@@ -575,12 +581,12 @@
                     } else {
                         showRegAlert('error', data.message || 'Failed to send verification code.');
                         sendCodeBtn.disabled = false;
-                        sendCodeText.textContent = 'Send Code';
+                        sendCodeText.textContent = tr('btn_send_code', 'Send Code');
                     }
                 } catch (err) {
                     showRegAlert('error', 'Network error while sending verification code.');
                     sendCodeBtn.disabled = false;
-                    sendCodeText.textContent = 'Send Code';
+                    sendCodeText.textContent = tr('btn_send_code', 'Send Code');
                 }
             });
         }
@@ -665,7 +671,7 @@
                     showRegAlert('error', 'Network error while submitting registration.');
                 } finally {
                     submitRegBtn.disabled = false;
-                    submitRegText.textContent = 'Register Account';
+                    submitRegText.textContent = tr('btn_submit_reg', 'Register Account');
                 }
             });
         }
@@ -1038,6 +1044,7 @@
         }
 
         function setLanguage(lang) {
+            currentLang = lang;
             const langCodes = {
                 en: 'EN',
                 pt: 'PT',
