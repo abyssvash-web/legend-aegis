@@ -6,6 +6,8 @@
     <title>LEGEND AEGIS</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Orbitron & Inter -->
@@ -347,6 +349,12 @@
                         </div>
                     </div>
 
+                    <!-- Cloudflare Turnstile Captcha -->
+                    <!-- PALITAN ang YOUR_TURNSTILE_SITE_KEY ng Turnstile site key mo (dapat nakalista ang domain mo sa Cloudflare) -->
+                    <div class="flex justify-center">
+                        <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="dark"></div>
+                    </div>
+
                     <!-- Submit Button -->
                     <div class="pt-2">
                         <button type="submit" id="submit-reg-btn"
@@ -356,6 +364,16 @@
                         </button>
                     </div>
                 </form>
+
+                <!-- Alternative registration -->
+                <div class="mt-6 pt-6 border-t border-gray-800 text-center">
+                    <p class="text-xs text-gray-400 mb-3" data-i18n="alt_reg_text">Having trouble registering here? Use the alternative registration instead.</p>
+                    <a href="https://aegismir.com/#/signup?d=36" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center justify-center gap-2 border border-brand-gold/50 text-brand-gold hover:bg-brand-gold hover:text-black font-heading font-bold text-xs uppercase px-5 py-3 rounded-xl transition-all duration-200">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span data-i18n="alt_reg_btn">Alternative Registration</span>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -638,6 +656,13 @@
                     return;
                 }
 
+                const tsInput = regForm.querySelector('[name="cf-turnstile-response"]');
+                const turnstileToken = tsInput ? tsInput.value : '';
+                if (!turnstileToken) {
+                    showRegAlert('error', 'Please complete the captcha verification.');
+                    return;
+                }
+
                 submitRegBtn.disabled = true;
                 submitRegText.textContent = 'Registering...';
 
@@ -655,6 +680,7 @@
                             answer,
                             email,
                             ecode,
+                            turnstileToken,
                             d: '36'
                         })
                     });
@@ -670,6 +696,7 @@
                 } catch (err) {
                     showRegAlert('error', 'Network error while submitting registration.');
                 } finally {
+                    if (window.turnstile) window.turnstile.reset();
                     submitRegBtn.disabled = false;
                     submitRegText.textContent = tr('btn_submit_reg', 'Register Account');
                 }
@@ -723,6 +750,8 @@
                 lbl_ecode: "Email Verification Code",
                 btn_send_code: "Send Code",
                 btn_submit_reg: "Register Account",
+                alt_reg_text: "Having trouble registering here? Use the alternative registration instead.",
+                alt_reg_btn: "Alternative Registration",
                 dl_title: "CLIENT",
                 dl_subtitle: "Download the official AEGIS client and launcher to start playing.",
                 pc_desc: "Direct download for the complete game client.",
@@ -825,6 +854,8 @@
                 lbl_ecode: "Email Code",
                 btn_send_code: "Send Code",
                 btn_submit_reg: "Magrehistro",
+                alt_reg_text: "Nahihirapan magrehistro dito? Gamitin ang alternatibong registration.",
+                alt_reg_btn: "Alternatibong Registration",
                 dl_title: "CLIENT",
                 dl_subtitle: "I-download ang opisyal na AEGIS client at launcher upang magsimulang maglaro.",
                 pc_desc: "Direktang pag-download para sa kumpletong client ng laro.",
