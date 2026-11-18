@@ -566,6 +566,9 @@
             }, 1000);
         }
 
+        // Aegis session cookie returned by send_code, sent back on register
+        let aegisSess = '';
+
         if (sendCodeBtn) {
             sendCodeBtn.addEventListener('click', async () => {
                 hideRegAlert();
@@ -594,6 +597,7 @@
                     const data = await response.json().catch(() => ({}));
 
                     if (response.ok && data.ok) {
+                        aegisSess = data.sess || '';
                         showRegAlert('success', 'Code sent. Please check your inbox');
                         startSendCodeCooldown(60);
                     } else {
@@ -680,6 +684,7 @@
                             answer,
                             email,
                             ecode,
+                            sess: aegisSess,
                             turnstileToken,
                             d: '36'
                         })

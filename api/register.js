@@ -100,6 +100,10 @@ async function handleAegis(req, res, body) {
 
       const data = await mailRes.json().catch(() => null);
 
+      // Keep Aegis session cookie so the code can be matched at register time
+      const sess = getCookieHeader(mailRes);
+      console.log("Aegis send_code response:", JSON.stringify(data), "| cookie:", sess ? "yes" : "none");
+
       if (
         mailRes.ok &&
         data &&
@@ -108,6 +112,7 @@ async function handleAegis(req, res, body) {
         return send(res, 200, {
           ok: true,
           message: "Code sent. Please check your inbox",
+          sess,
         });
       }
 
@@ -117,7 +122,7 @@ async function handleAegis(req, res, body) {
       }
 
       if (mailRes.ok && data) {
-        return send(res, 200, { ok: true, message: "Code sent. Please check your inbox" });
+        return send(res, 200, { ok: true, message: "Code sent. Please check your inbox", sess });
       }
 
       return field(res, "Failed to send verification code. Please try again.");
@@ -159,6 +164,9 @@ async function handleAegis(req, res, body) {
       return field(res, "Captcha verification is required.");
     }
 
+    // Session cookie from send_code (needed for Aegis to match the email code)
+    const sess = typeof body.sess === "string" ? body.sess.trim() : "";
+
     try {
       const regRes = await fetch(AEGIS_REGISTER_API, {
         method: "POST",
@@ -167,6 +175,7 @@ async function handleAegis(req, res, body) {
           Accept: "application/json, text/plain, */*",
           Origin: "https://aegismir.com",
           Referer: "https://aegismir.com/",
+          ...(sess ? { Cookie: sess } : {}),
         },
         body: new URLSearchParams({
           account,
