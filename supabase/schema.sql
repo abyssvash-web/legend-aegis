@@ -20,3 +20,15 @@ create index if not exists orders_status_idx on public.orders (status, created_a
 
 -- Lock the table: browsers (anon key) get no access. Only our server's secret key can read/write.
 alter table public.orders enable row level security;
+
+-- Player accounts (registration form -> api/register.js)
+create table if not exists public.accounts (
+  id            uuid primary key default gen_random_uuid(),
+  username      text not null check (username ~ '^[A-Za-z0-9_]{4,20}$'),
+  email         text not null,
+  password_hash text not null,                     -- salted scrypt hash, never plain text
+  created_at    timestamptz not null default now()
+);
+create unique index if not exists accounts_username_uq on public.accounts (lower(username));
+create unique index if not exists accounts_email_uq    on public.accounts (lower(email));
+alter table public.accounts enable row level security;  -- browsers get no access; only the server key can write
