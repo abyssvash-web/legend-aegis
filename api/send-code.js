@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const { db, mail } = require('./_shared');
 const fail = (res, code, error, detail) => res.status(code).json(detail && process.env.DEBUG_ERRORS === '1' ? { error, detail: String(detail).slice(0, 300) } : { error });
-const DOMAINS = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com'];
+const DOMAINS = ['gmail.com', 'outlook.com', 'qq.com'];
 const codeHash = (email, code) => crypto.createHash('sha256').update(`${process.env.CODE_SALT || 'aegis'}|${email}|${code}`).digest('hex');
 
 module.exports = async (req, res) => {
