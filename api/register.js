@@ -136,7 +136,7 @@ async function handleAegis(req, res, body) {
       if (mailRes.status === 429) {
         return field(res, "Too many requests. Please wait a few minutes before sending another code.");
       }
-      return field(res, `Failed to send verification code (HTTP ${mailRes.status}). Please try again.`);
+      return field(res, "Failed to send verification code. Please try again.");
     } catch (err) {
       console.error("Aegis mail API error:", err);
       return field(res, "Unable to reach Aegis mail server.");
