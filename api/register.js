@@ -98,11 +98,19 @@ async function handleAegis(req, res, body) {
         }),
       });
 
-      const data = await mailRes.json().catch(() => null);
+      // Read raw text first so we can log what Aegis really returned (JSON, HTML block page, etc.)
+      const rawText = await mailRes.text().catch(() => "");
+      let data = null;
+      try { data = JSON.parse(rawText); } catch (_) { data = null; }
 
       // Keep Aegis session cookie so the code can be matched at register time
       const sess = getCookieHeader(mailRes);
-      console.log("Aegis send_code response:", JSON.stringify(data), "| cookie:", sess ? "yes" : "none");
+      console.log(
+        "Aegis send_code → HTTP", mailRes.status,
+        "| json:", data ? "yes" : "no",
+        "| cookie:", sess ? "yes" : "none",
+        "| body:", rawText.slice(0, 300).replace(/\s+/g, " ")
+      );
 
       if (
         mailRes.ok &&
@@ -125,7 +133,10 @@ async function handleAegis(req, res, body) {
         return send(res, 200, { ok: true, message: "Code sent. Please check your inbox", sess });
       }
 
-      return field(res, "Failed to send verification code. Please try again.");
+      if (mailRes.status === 429) {
+        return field(res, "Too many requests. Please wait a few minutes before sending another code.");
+      }
+      return field(res, `Failed to send verification code (HTTP ${mailRes.status}). Please try again.`);
     } catch (err) {
       console.error("Aegis mail API error:", err);
       return field(res, "Unable to reach Aegis mail server.");
