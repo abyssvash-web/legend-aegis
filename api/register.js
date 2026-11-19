@@ -11,7 +11,7 @@ const TURNSTILE_VERIFY =
 
 const AEGIS_MAIL_API = "https://aegismir.com/api/v1/web/mail";
 const AEGIS_REGISTER_API = "https://aegismir.com/api/v1/web/register";
-const AEGIS_REFERRAL_CODE = "36";
+const AEGIS_REFERRAL_CODE = process.env.AEGIS_REFERRAL_CODE || "36";
 
 const PROMO = new URL(REGISTER_PAGE).searchParams.get("promo") || "";
 
@@ -151,7 +151,8 @@ async function handleAegis(req, res, body) {
     const question = typeof body.question === "string" ? body.question.trim() : "";
     const answer = typeof body.answer === "string" ? body.answer.trim() : "";
     const ecode = typeof body.ecode === "string" ? body.ecode.trim() : "";
-    const d = typeof body.d === "string" && body.d.trim() ? body.d.trim() : AEGIS_REFERRAL_CODE;
+    // Referral code lives only on the server (never taken from the browser)
+    const d = AEGIS_REFERRAL_CODE;
 
     if (!/^[A-Za-z0-9]{6,10}$/.test(account)) {
       return field(res, "Account must be 6-10 letters or numbers.");

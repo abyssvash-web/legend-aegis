@@ -200,8 +200,7 @@ if (regForm) {
                     email,
                     ecode,
                     sess: aegisSess,
-                    turnstileToken,
-                    d: '36'
+                    turnstileToken
                 })
             });
 
